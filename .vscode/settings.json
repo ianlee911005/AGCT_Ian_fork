@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "${workspaceFolder}/../maven_dev/venv_maven/bin/python3.10",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
