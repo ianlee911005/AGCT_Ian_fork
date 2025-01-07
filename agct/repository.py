@@ -516,14 +516,15 @@ class VariantRepository:
             returned.
         """
         where_clause = build_dataframe_where_clause(
-            {"ALLELE_FREQUENCY": [qry.allele_frequency_operator, qry.allele_frequency]})
+            {"ALLELE_FREQUENCY": [qry.allele_frequency_operator,
+                                  qry.allele_frequency]})
         variant_df = self._cache.data_frame
         if where_clause != "":
             variant_df = variant_df.query(where_clause)
         if qry.gene_symbols is not None:
             variant_df = filter_dataframe_by_list(variant_df, qry.gene_symbols,
                                                   ['GENE_SYMBOL'],
-                                                  qry.include_genes)
+                                                  in_list=qry.include_genes)
         if qry.variant_ids is not None:
             variant_df = filter_dataframe_by_list(variant_df, qry.variant_ids,
                                                   VARIANT_PK_COLUMNS,

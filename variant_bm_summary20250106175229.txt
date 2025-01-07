@@ -1,0 +1,31 @@
+
+Summary metrics for Variant Effect Prediction Benchmark: 2025/01/06 17:52:29
+
+Total number of variants acorss all VEPs in analysis: 5040
+
+     SCORE_SOURCE  NUM_VARIANTS  NUM_POSITIVE_LABELS  NUM_NEGATIVE_LABELS SOURCE_NAME
+0   ALPHAMISSENSE           777                  775                    2         NaN
+1           ESM1B           595                  592                    3       ESM1B
+2             EVE           265                  264                    1         EVE
+3            GMVP           345                  342                    3         NaN
+4           REVEL           691                  688                    3       REVEL
+5            USER           691                  688                    3         NaN
+6  VARIATY_ER_LOO           419                  417                    2         NaN
+7   VARIATY_R_LOO           419                  417                    2         NaN
+8       VARITY_ER           419                  417                    2         NaN
+9        VARITY_R           419                  417                    2         NaN
+
+
+ROC Metrics
+
+     SCORE_SOURCE   ROC_AUC  EXCEPTION SOURCE_NAME
+0   ALPHAMISSENSE  0.634194        NaN         NaN
+2             EVE  0.488636        NaN         EVE
+4           REVEL  0.485950        NaN       REVEL
+1           ESM1B  0.395833        NaN       ESM1B
+6  VARIATY_ER_LOO  0.387290        NaN         NaN
+8       VARITY_ER  0.360911        NaN         NaN
+9        VARITY_R  0.338129        NaN         NaN
+7   VARIATY_R_LOO  0.319544        NaN         NaN
+5            USER  0.264535        NaN         NaN
+3            GMVP  0.181287        NaN         NaN

@@ -150,6 +150,9 @@ class VariantBenchmarkMetrics:
     Only populated if parameter, list_variants is True.
     """
 
+    vep_min_overlap_percent: float
+    variant_vep_retention_percent: float
+    num_user_variants: int
     general_metrics: pd.DataFrame
     roc_metrics: pd.DataFrame
     pr_metrics: pd.DataFrame

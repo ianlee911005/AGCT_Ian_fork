@@ -10,9 +10,12 @@ from .repository import (
     RepoSessionContext,
     VariantFilterRepository,
     VariantRepository,
-    VariantEffectSourceRepository
+    VariantEffectSourceRepository,
+    VariantTaskRepository
 )
 from .analyzer import VariantPredictionAnalyzer
+from .query import VariantQueryMgr
+from .reporter import VariantPredictionReporter
 
 import yaml
 import os
@@ -26,6 +29,8 @@ class VBMContainer:
             self.config = yaml.safe_load(config_file)
         self._repo_session_context = RepoSessionContext(
             self.config["repository"]["root_dir"])
+        self._variant_task_repo = VariantTaskRepository(
+            self._repo_session_context)
         self._variant_repo = VariantRepository(self._repo_session_context)
         self._variant_filter_repo = VariantFilterRepository(
             self._repo_session_context)
@@ -44,9 +49,21 @@ class VBMContainer:
             self._score_repo,
             self._label_repo,
             self._variant_effect_source_repo)
+        self._query_mgr = VariantQueryMgr(self._label_repo,
+                                          self._variant_repo,
+                                          self._variant_task_repo,
+                                          self._variant_effect_source_repo,
+                                          self._score_repo)
+        self._reporter = VariantPredictionReporter()
 
     @property
     def analyzer(self):
         return self._analyzer
 
+    @property
+    def query_mgr(self):
+        return self._query_mgr
 
+    @property
+    def reporter(self):
+        return self._reporter

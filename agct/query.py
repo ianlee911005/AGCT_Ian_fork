@@ -7,15 +7,16 @@ methods to optionally transform the data to make it more meaningful
 or presentation ready to the caller.
 """
 
-from repository import (
+from .repository import (
     VariantEffectLabelRepository,
     VariantRepository,
     VariantTaskRepository,
     VariantEffectSourceRepository,
     VariantEffectScoreRepository
 )
-from pandas import pd
-from model import VariantQueryParams
+from .model import VariantQueryParams
+
+import pandas as pd
 
 
 def cleanup_variant_query_params(params: VariantQueryParams):
@@ -123,13 +124,9 @@ class VariantQueryMgr:
             allele_frequency,
             filter_name)
 
-    def get_variants(self, task_name: str, gene_symbols=None,
-                     include_genes: bool = None,
-                     variant_ids: pd.DataFrame = None,
-                     include_variant_ids: bool = None,
-                     allele_frequency_operator: str = None,
-                     allele_frequency: float = None,
-                     filter_name: str = None) -> pd.DataFrame:
+    def get_variants(self, task_name: str,
+                     query_criteria: VariantQueryParams = None
+                     ) -> pd.DataFrame:
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.
@@ -163,13 +160,9 @@ class VariantQueryMgr:
             returned.
         """
 
-        return self._variant_effect_label_repo.get(task_name, gene_symbols,
-                                                   include_genes, variant_ids,
-                                                   include_variant_ids,
-                                                   allele_frequency_operator,
-                                                   allele_frequency,
-                                                   filter_name)
-
+        return self._variant_effect_label_repo.get(task_name,
+                                                   query_criteria)
+        
     def get_variant_distribution(self, by: str, task_name: str,
                                  gene_symbols=None,
                                  include_genes: bool = None,

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.metrics import (
      roc_curve,
      roc_auc_score,
@@ -59,8 +60,8 @@ class VariantPredictionAnalyzer:
         # labels) and then reset the universe to the filtered user variant list
         if user_ve_scores is not None:
             if column_name_map is not None and len(column_name_map) > 0:
-                user_ve_scores = user_ve_scores.rename
-                (column_name_map)
+                user_ve_scores = user_ve_scores.rename(
+                    columns=column_name_map)
             user_ve_scores = user_ve_scores.merge(variant_universe_pks_df,
                                                   how="inner",
                                                   on=VARIANT_PK_COLUMNS)
@@ -158,19 +159,33 @@ class VariantPredictionAnalyzer:
         false_positive_rates = []
         true_positive_rates = []
         thresholds_list = []
+        exceps = []
         for score_source, scores_labels_df in grouped_ve_scores_labels:
-            fpr, tpr, thresholds = roc_curve(scores_labels_df['BINARY_LABEL'],
-                                             scores_labels_df['RANK_SCORE'])
-            aucs.append(roc_auc_score(scores_labels_df['BINARY_LABEL'],
-                                      scores_labels_df['RANK_SCORE']))
-            fpr_tpr_score_sources.extend([score_source] * len(fpr))
-            false_positive_rates.extend(fpr)
-            true_positive_rates.extend(tpr)
-            thresholds_list.extend(thresholds)
+            try:
+                if (len(scores_labels_df) ==
+                        sum(scores_labels_df['BINARY_LABEL']) or
+                        sum(scores_labels_df['BINARY_LABEL']) == 0):
+                    raise Exception("Cannot compute roc metrics because all "
+                                    "labels have same value")
+                auc = roc_auc_score(scores_labels_df['BINARY_LABEL'],
+                                    scores_labels_df['RANK_SCORE'])
+                fpr, tpr, thresholds = roc_curve(
+                    scores_labels_df['BINARY_LABEL'],
+                    scores_labels_df['RANK_SCORE'])
+                aucs.append(auc)
+                fpr_tpr_score_sources.extend([score_source] * len(fpr))
+                false_positive_rates.extend(fpr)
+                true_positive_rates.extend(tpr)
+                thresholds_list.extend(thresholds)
+                exceps.append(np.nan)
+            except Exception as e:
+                aucs.append(np.nan)
+                exceps.append(str(e))
 
         roc_df = pd.DataFrame({"SCORE_SOURCE": grouped_ve_scores_labels.
                                indices.keys(),
                                "ROC_AUC": aucs,
+                               "EXCEPTION": exceps
                                })
         roc_curve_coords_df = pd.DataFrame(
             {"SCORE_SOURCE": fpr_tpr_score_sources,
@@ -180,35 +195,34 @@ class VariantPredictionAnalyzer:
              })
         return roc_df, roc_curve_coords_df
 
+    @staticmethod
+    def _compute_general_metrics(group) -> pd.Series:
+        return pd.Series(
+            {"NUM_VARIANTS": len(group),
+             "NUM_POSITIVE_LABELS": group["BINARY_LABEL"].sum(),
+             "NUM_NEGATIVE_LABELS": (group["BINARY_LABEL"] ^ 1).sum()
+             })
+
+    def _add_info_to_metric_dataframes(self, *dfs):  # -> list(pd.DataFrame):
+        return_dfs = []
+        for df in dfs:
+            if df is not None:
+                df = df.merge(self._variant_effect_source_repo.get_all()[
+                    ["CODE", "NAME"]], how="left", left_on="SCORE_SOURCE",
+                            right_on="CODE")
+                df.rename(columns={"NAME": "SOURCE_NAME"}, inplace=True)
+                df.drop(columns="CODE", inplace=True)
+            return_dfs.append(df)
+        return return_dfs
+
     def _compute_metrics(
             self, task_name: str, ve_scores_labels_df: pd.DataFrame,
             metrics: list[str], list_variants: bool = False
     ) -> VariantBenchmarkMetrics:
 
-        num_variants = []
-        num_positive_labels = []
-        num_negative_labels = []
         grouped_ve_scores_labels = ve_scores_labels_df.groupby("SCORE_SOURCE")
-        score_source_codes = grouped_ve_scores_labels.indices.keys()
-        for score_source, scores_labels_df in grouped_ve_scores_labels:
-            num_vars = len(scores_labels_df)
-            num_positives = sum(scores_labels_df['BINARY_LABEL'])
-            num_variants.append(num_vars)
-            num_positive_labels.append(num_positives)
-            num_negative_labels.append(num_vars - num_positives)
-        general_metrics_df = pd.DataFrame(
-            {"SCORE_SOURCE": score_source_codes,
-             "NUM_VARIANTS": num_vars,
-             "NUM_POSITIVE_LABELS": num_positive_labels,
-             "NUM_NEGATIVE_LABELS": num_negative_labels
-             })
-        ve_score_sources = self._variant_effect_source_repo.get_by_code(
-            score_source_codes)
-        general_metric_df = general_metrics_df.merge(ve_score_sources,
-                                                     how="inner",
-                                                     left_on="SCORE_SOURCE",
-                                                     right_on="CODE")
-        general_metric_df.drop(columns="CODE", inplace=True)
+        general_metrics_df = grouped_ve_scores_labels.apply(
+            self._compute_general_metrics, include_groups=False).reset_index()
         roc_df = None
         roc_curve_coords_df = None
         pr_df = None
@@ -227,10 +241,16 @@ class VariantPredictionAnalyzer:
                                                        VARIANT_PK_COLUMNS]
         else:
             included_variants_df = None
-        return VariantBenchmarkMetrics(general_metrics_df, roc_df, pr_df,
-                                       mwu_df, roc_curve_coords_df,
-                                       pr_curve_coords_df,
-                                       included_variants_df)
+        general_metrics_df, roc_df, pr_df, mwu_df, roc_curve_coords_df, \
+            pr_curve_coords_df = self._add_info_to_metric_dataframes(
+                general_metrics_df, roc_df, pr_df,
+                mwu_df, roc_curve_coords_df, pr_curve_coords_df)
+        return VariantBenchmarkMetrics(vep_min_overlap_percent,
+    variant_vep_retention_percent: float
+    num_user_variants: int
+
+            general_metrics_df, roc_df, pr_df, mwu_df, roc_curve_coords_df,
+            pr_curve_coords_df, included_variants_df)
 
     def compute_metrics(
             self,
@@ -238,7 +258,7 @@ class VariantPredictionAnalyzer:
             user_ve_scores: pd.DataFrame = None,
             column_name_map: dict = None,
             variant_effect_sources: list[str] = None,
-            include_variant_effect_sources: bool = None,
+            include_variant_effect_sources: bool = True,
             variant_query_criteria: VariantQueryParams = None,
             vep_min_overlap_percent: float = 0,
             variant_vep_retention_percent: float = 0,
