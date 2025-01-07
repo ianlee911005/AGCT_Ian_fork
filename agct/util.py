@@ -37,17 +37,12 @@ class FileUtil:
             os.mkdir(folder)
 
 
-class TimeUtil:
-
-    @staticmethod
-    def now_str():
-        now = datetime.now()
-        return now.strftime("%Y%m%d%H%M%S")
-
-
 def str_or_list_to_list(str_or_list: str | list[str]) -> list[str]:
     if type(str_or_list) is str:
         return [str_or_list]
     else:
         return str_or_list
+
+
+
 

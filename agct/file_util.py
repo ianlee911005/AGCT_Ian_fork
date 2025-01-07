@@ -5,10 +5,6 @@ a proper one in the future.
 """
 
 
-class FileUtil:
-
-    @staticmethod
-    def __getitem__(self, service):
-        return service
-
-
+def new_line(out, num_nls: int = 1):
+    nls = "\n" * num_nls
+    out.write(nls)

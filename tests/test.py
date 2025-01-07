@@ -3,6 +3,9 @@ import context  # noqa: F401
 from agct.model import VariantId  # noqa: F401
 from dataclasses import dataclass, field
 import os
+import pandas as pd
+from sklearn.metrics import (
+    roc_auc_score, roc_curve, precision_recall_curve, auc)
 
 
 print(type(VariantId))
@@ -41,3 +44,72 @@ class pars(par):
 
 inst = pars('a')
 inst.prop
+
+di = {"a": "b", "c": "d"}
+dr = {v: k for k, v in di.items()}
+
+
+df = pd.DataFrame({"a": [1,1,2,2,3,4], "b": [1,2,3,4,5,6]})
+dfg = df.groupby("a")
+
+import numpy as np
+
+df = pd.DataFrame({'A': ["a","a",np.nan,np.nan],
+                    'B': [1, 2, 3, 4],
+                    'C': [4, 6, 5, 5],
+                    'D': ["a","c","b",np.nan]})
+g1 = df.groupby('A', group_keys=False)
+g2 = df.groupby('A', group_keys=True)
+
+
+dfqr = df.query('A != D')
+
+def lf(x):
+    ret = x/x.sum()
+    return ret
+
+def lf1(x):
+    m1 = x['B'].max() + x['C'].max()
+    # s = pd.Series({"A": x['A'], "B": x['B'].max(), "C": x['C'].max(), "D": m1})
+    s = pd.Series({"B": x['B'].max(), "C": x['C'].max(), "D": m1})
+    return s
+
+gg = g1[['B','C']]
+
+# g1[['B', 'C']].apply(lambda x: x / x.sum())
+#g1[['B', 'C']].apply(lf)
+gr = g2[['B', 'C']].apply(lf1)
+
+roc_curve([1,1],[.3,.4])
+
+try:
+    roc_auc_score([1,1],[.3,.4])
+except ValueError as ve:
+    a = str(ve)
+except Exception as e:
+    b = str(e)
+
+try:
+    prs, recs, thresholds = precision_recall_curve([1,1],[.2,.3])
+    auc(recs, prs)
+except ValueError as ve:
+    d = str(ve)
+except Exception as e:
+    f = str(e)
+
+a
+
+with open("junk.lis", "w") as out:
+    out.write("abc\n\n")
+    out.write("xbc")
+
+def tfunc(*args):
+    for a in args:
+        print(a)
+    return [1,2,3]
+
+x,y,z = tfunc(5,6,7)
+x
+
+
+
