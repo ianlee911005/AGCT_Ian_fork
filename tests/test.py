@@ -54,15 +54,17 @@ dfg = df.groupby("a")
 
 import numpy as np
 
-df = pd.DataFrame({'A': ["a","a",np.nan,np.nan],
-                    'B': [1, 2, 3, 4],
-                    'C': [4, 6, 5, 5],
-                    'D': ["a","c","b",np.nan]})
+df = pd.DataFrame({'A': ["a","a",np.nan,np.nan,"a"],
+                    'B': [1, 2, 3, 4,1],
+                    'C': [4, 6, 5, 5,4],
+                    'D': ["a","c","b",np.nan,"a"]})
 g1 = df.groupby('A', group_keys=False)
 g2 = df.groupby('A', group_keys=True)
 
 
 dfqr = df.query('A != D')
+
+xx = df.drop_duplicates()
 
 def lf(x):
     ret = x/x.sum()
@@ -111,5 +113,20 @@ def tfunc(*args):
 x,y,z = tfunc(5,6,7)
 x
 
+import matplotlib.colors as mcolors
 
+a = mcolors.CSS4_COLORS
 
+print('start')
+for r in df:
+    print(r)
+
+for i,r in df.iterrows():
+    print(str(i) + ": " + str(r))
+
+pass
+
+import os
+y = ("a","b")
+x = os.path.join(*y)
+pass

@@ -7,9 +7,9 @@ import pandas as pd
 import numpy as np
 import re
 from typing import List
-from util import FileUtil
-from util import TimeUtil
-from repository import DATA_FOLDER, TASK_FOLDERS, TABLE_DEFS
+from .file_util import create_folder
+from .date_util import now_str_compact
+from .repository import DATA_FOLDER, TASK_FOLDERS, TABLE_DEFS
 
 
 COLUMN_NAME_MAP = {
@@ -176,9 +176,9 @@ class RepositoryLoader:
 
     def init_variant_task(self):
 
-        FileUtil.create_folder(DATA_FOLDER)
+        create_folder(DATA_FOLDER)
         for task_folder in TASK_FOLDERS:
-            FileUtil.create_folder(task_folder)
+            create_folder(task_folder)
 
         variant_effect_task_df = pd.DataFrame(
             data=np.array([['CANCER', 'CANCER', 'Cancer', 'Cancer']]),
@@ -242,7 +242,7 @@ class RepositoryLoader:
     def _excep_file_full_path_name(self, task: str, repo_file_name: str):
         os.path.join(self._log_folder, task + "_" +
                      repo_file_name.removesuffix(".csv") + "_" +
-                     TimeUtil.now_str() + ".csv")
+                     now_str_compact() + ".csv")
 
     def _upsert_repository_file(self, new_data: pd.DataFrame, task: str,
                                 columns: List(str), repo_file_name: str,

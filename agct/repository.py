@@ -630,8 +630,9 @@ class VariantEffectScoreRepository:
 
     def get_all_by_task(self, task_name: str) -> pd.DataFrame:
         label_df = self._cache.get_data_frame(task_name)
-        variant_df = self._variant_repo.get(variant_ids=label_df[
+        query_criteria = VariantQueryParams(variant_ids=label_df[
             VARIANT_PK_COLUMNS], include_variant_ids=True)
+        variant_df = self._variant_repo.get(query_criteria)
         return label_df.merge(variant_df, on=VARIANT_PK_COLUMNS,
                               how="inner")
 
