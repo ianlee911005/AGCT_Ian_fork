@@ -16,6 +16,7 @@ from .repository import (
 from .analyzer import VariantPredictionAnalyzer
 from .query import VariantQueryMgr
 from .reporter import VariantPredictionReporter
+from .plotter import VariantAnalysisPlotter
 
 import yaml
 import os
@@ -55,6 +56,7 @@ class VBMContainer:
                                           self._variant_effect_source_repo,
                                           self._score_repo)
         self._reporter = VariantPredictionReporter()
+        self._plotter = VariantAnalysisPlotter(self.config["plot"])
 
     @property
     def analyzer(self):
@@ -67,3 +69,7 @@ class VBMContainer:
     @property
     def reporter(self):
         return self._reporter
+
+    @property
+    def plotter(self):
+        return self._plotter

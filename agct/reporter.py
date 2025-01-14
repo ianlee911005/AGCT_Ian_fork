@@ -28,8 +28,11 @@ class VariantPredictionReporter:
         out.write("Summary metrics for Variant Effect Prediction Benchmark: " +
                   now_str_basic_format())
         new_line(out, 2)
-        out.write("Total number of variants acorss all VEPs in analysis: " +
-                  str(len(metrics.variants_included)))
+        out.write("Total number of user supplied variants: " +
+                  str(metrics.num_user_variants))
+        new_line(out, 2)
+        out.write("Total number of variants across all VEPs in analysis: " +
+                  str(metrics.num_variants_included))
         new_line(out, 2)
         self._write_metric_dataframe(out, metrics.general_metrics)
         new_line(out, 2)
