@@ -76,7 +76,7 @@ class VariantFilterDf:
 
 
 @dataclass
-class VariantQueryParams:
+class VEQueryCriteria:
     """
     Model object that represents variant query criteria.
 
@@ -137,7 +137,7 @@ class VariantBenchmarkRoc:
 
 
 @dataclass
-class VariantBenchmarkMetrics:
+class VEAnalysisResult:
     """
     Roc_aucs – A dataframe containing columns: variant_effect_source,
       roc_auc, num_variants, num_positive_labels, num_negative_labels

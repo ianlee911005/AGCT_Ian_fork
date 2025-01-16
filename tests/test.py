@@ -130,3 +130,8 @@ import os
 y = ("a","b")
 x = os.path.join(*y)
 pass
+
+dic = [{"a":1,"b":2},{"a":5,"b":6}]
+
+df3= pd.DataFrame([{"a":1,"b":2},{"a":5,"b":6}],columns=["A","B"])
+pass

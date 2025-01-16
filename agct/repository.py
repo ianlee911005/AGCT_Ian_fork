@@ -14,7 +14,7 @@ from .pd_util import (
     filter_dataframe_by_list,
     build_dataframe_where_clause
 )
-from .model import VariantFilterDf, VariantQueryParams
+from .model import VariantFilterDf, VEQueryCriteria
 
 
 TASK_SUBFOLDER = {
@@ -484,7 +484,7 @@ class VariantRepository:
     def get_all(self) -> pd.DataFrame:
         return self._cache.data_frame.copy(deep=True)
 
-    def get(self, qry: VariantQueryParams = None) -> pd.DataFrame:
+    def get(self, qry: VEQueryCriteria = None) -> pd.DataFrame:
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.
@@ -556,7 +556,7 @@ class VariantEffectLabelRepository:
                               how="inner")
 
     def get(self, task_name: str,
-            qry: VariantQueryParams = None) -> pd.DataFrame:
+            qry: VEQueryCriteria = None) -> pd.DataFrame:
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.
@@ -630,7 +630,7 @@ class VariantEffectScoreRepository:
 
     def get_all_by_task(self, task_name: str) -> pd.DataFrame:
         label_df = self._cache.get_data_frame(task_name)
-        query_criteria = VariantQueryParams(variant_ids=label_df[
+        query_criteria = VEQueryCriteria(variant_ids=label_df[
             VARIANT_PK_COLUMNS], include_variant_ids=True)
         variant_df = self._variant_repo.get(query_criteria)
         return label_df.merge(variant_df, on=VARIANT_PK_COLUMNS,
@@ -639,7 +639,7 @@ class VariantEffectScoreRepository:
     def get(self, task_name: str,
             variant_effect_sources: list[str] | str = None,
             include_variant_effect_sources: bool = True,
-            qry: VariantQueryParams = None) -> pd.DataFrame:
+            qry: VEQueryCriteria = None) -> pd.DataFrame:
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.

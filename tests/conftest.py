@@ -2,7 +2,7 @@
 import pytest
 import random
 import context  # noqa: F401
-from agct.container import VBMContainer
+from agct.container import VEBenchmarkContainer
 from agct.repository import (
     VARIANT_PK_COLUMNS
 )
@@ -10,7 +10,7 @@ from agct.repository import (
 
 @pytest.fixture
 def variant_bm_container():
-    return VBMContainer()
+    return VEBenchmarkContainer()
 
 
 @pytest.fixture
@@ -63,4 +63,9 @@ def sample_user_scores_col_name_map(variant_bm_container, sample_user_scores):
 @pytest.fixture
 def variant_query_mgr(variant_bm_container):
     return variant_bm_container.query_mgr
+
+
+@pytest.fixture
+def ve_analysis_exporter(variant_bm_container):
+    return variant_bm_container.exporter
  

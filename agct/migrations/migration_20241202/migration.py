@@ -1,4 +1,6 @@
-from repo_loader import RepositoryLoader
+import context  # noqa: F401
+
+from agct.repo_loader import RepositoryLoader
 
 LEGACY_DATA_FOLDERS = {
     "cancer": "TGCA.V1/datas/cancer",
@@ -41,7 +43,7 @@ def migrate_task_files(loader: RepositoryLoader, task: str):
 
 
 loader = RepositoryLoader()
-loader.init_variant_task()
+# loader.init_variant_task()
 loader.init_variant_effect_source()
 migrate_task_files(loader, "cancer")
 migrate_task_files(loader, "adrd")

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 from .model import (
-    VariantBenchmarkMetrics
+    VEAnalysisResult
 )
 from .date_util import now_str_compact
 from .file_util import (
@@ -13,7 +13,7 @@ from .file_util import (
 )
 
 
-class VariantAnalysisPlotter:
+class VEAnalysisPlotter:
 
     def __init__(self, settings: dict):
         self._settings = settings
@@ -68,7 +68,7 @@ class VariantAnalysisPlotter:
                         bbox_inches=self._settings['bbox_inches'])
         plt.show()
 
-    def _display_roc_table(self, results: VariantBenchmarkMetrics,
+    def _display_roc_table(self, results: VEAnalysisResult,
                            file_name: str = None):
         table_output = results.general_metrics.merge(
             results.roc_metrics, how="inner", suffixes=(None, "_y"),
@@ -82,7 +82,7 @@ class VariantAnalysisPlotter:
              axis=1).set_caption("ROC")
         style.to_html(file_name)
 
-    def plot_roc_results(self, results: VariantBenchmarkMetrics,
+    def plot_roc_results(self, results: VEAnalysisResult,
                          dir: str = None):
         num_curves_per_plot = self._max_num_curves_per_plot
         roc_metric_batches = []
@@ -103,14 +103,14 @@ class VariantAnalysisPlotter:
             dir, "roc_table" + ".html")
         self._display_roc_table(results, roc_table_file_name)
 
-    def plot_results(self, results: VariantBenchmarkMetrics,
+    def plot_results(self, results: VEAnalysisResult,
                      dir: str = None):
         if dir is not None:
-            dir = unique_file_name(dir, "var_bm_results_")
+            dir = unique_file_name(dir, "ve_analysis_plots_")
             create_folder(dir)
         self.plot_roc_results(results, dir)
 
-    def plot_roc_results1(self, results: VariantBenchmarkMetrics,
+    def plot_roc_results1(self, results: VEAnalysisResult,
                           dir: str = None):
         """
         num_curves_per_plot = self._max_num_curves_per_plot

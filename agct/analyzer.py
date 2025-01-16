@@ -7,8 +7,8 @@ from sklearn.metrics import (
      auc
 )
 from .model import (
-    VariantQueryParams,
-    VariantBenchmarkMetrics
+    VEQueryCriteria,
+    VEAnalysisResult
 )
 from .repository import (
      VariantEffectScoreRepository,
@@ -22,7 +22,7 @@ VARIANT_EFFECT_SCORE_COLS = ["SCORE_SOURCE"] +\
     VARIANT_PK_COLUMNS + ["RANK_SCORE"]
 
 
-class VariantPredictionAnalyzer:
+class VEAnalyzer:
 
     def __init__(self, variant_effect_score_repo: VariantEffectScoreRepository,
                  variant_effect_label_repo: VariantEffectLabelRepository,
@@ -38,7 +38,7 @@ class VariantPredictionAnalyzer:
             column_name_map: dict = None,
             variant_effect_sources: list[str] = None,
             include_variant_effect_sources: bool = None,
-            variant_query_criteria: VariantQueryParams = None,
+            variant_query_criteria: VEQueryCriteria = None,
             vep_min_overlap_percent: float = 0,
             variant_vep_retention_percent: float = 0) -> pd.DataFrame:
 
@@ -118,7 +118,7 @@ class VariantPredictionAnalyzer:
                                                          retained_variants,
                                                          VARIANT_PK_COLUMNS)
         analysis_labels_df = self._variant_effect_label_repo.get(
-            task_name, VariantQueryParams(variant_ids=retained_variants))
+            task_name, VEQueryCriteria(variant_ids=retained_variants))
         analysis_ve_scores_labels_df = analysis_ve_scores_df.merge(
             analysis_labels_df, how="inner", on=VARIANT_PK_COLUMNS)
         return analysis_ve_scores_labels_df
@@ -259,11 +259,11 @@ class VariantPredictionAnalyzer:
             column_name_map: dict = None,
             variant_effect_sources: list[str] = None,
             include_variant_effect_sources: bool = True,
-            variant_query_criteria: VariantQueryParams = None,
+            variant_query_criteria: VEQueryCriteria = None,
             vep_min_overlap_percent: float = 0,
             variant_vep_retention_percent: float = 0,
             metrics: str | list[str] = "roc",
-            list_variants: bool = False) -> VariantBenchmarkMetrics:
+            list_variants: bool = False) -> VEAnalysisResult:
 
         scores_and_labels_df = self.get_analysis_scores_and_labels(
             task_name,
@@ -285,7 +285,7 @@ class VariantPredictionAnalyzer:
             scores_and_labels_df[VARIANT_PK_COLUMNS].drop_duplicates())
         num_user_variants = None if user_ve_scores is None else \
             len(user_ve_scores)
-        return VariantBenchmarkMetrics(num_variants,
+        return VEAnalysisResult(num_variants,
             num_user_variants, general_metrics_df, roc_df,
             pr_df, mwu_df, roc_curve_coords_df,
             pr_curve_coords_df, included_variants_df)

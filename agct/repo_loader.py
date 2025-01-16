@@ -31,112 +31,113 @@ COLUMN_NAME_MAP = {
     "Ensembl_proteinid": "ENSEMBL_PROTEIN_ID"
 }
 VEP_COLUMN_LIST = [
-    {"vep": "REVEL", "raw_score": "REVEL_score",
+    {"CODE": "REVEL", "raw_score": "REVEL_score",
      "rank_score": "REVEL_rankscore"},
-    {"vep": "GMVP", "raw_score": "gMVP_score", "rank_score": "gMVP_rankscore"},
-    {"vep": "VARITY_R", "raw_score": "VARITY_R_score",
+    {"CODE": "GMVP", "raw_score": "gMVP_score", 
+     "rank_score": "gMVP_rankscore"},
+    {"CODE": "VAR_R", "raw_score": "VARITY_R_score",
      "rank_score": "VARITY_R_rankscore"},
-    {"vep": "VARITY_ER", "raw_score": "VARITY_ER_score",
+    {"CODE": "VAR_ER", "raw_score": "VARITY_ER_score",
      "rank_score": "VARITY_ER_rankscore"},
-    {"vep": "VARIATY_R_LOO", "raw_score": "VARITY_R_LOO_score",
+    {"CODE": "VAR_RL", "raw_score": "VARITY_R_LOO_score",
      "rank_score": "VARITY_R_LOO_rankscore"},
-    {"vep": "VARIATY_ER_LOO", "raw_score": "VARITY_ER_LOO_score",
+    {"CODE": "VAR_ERL", "raw_score": "VARITY_ER_LOO_score",
      "rank_score": "VARITY_ER_LOO_rankscore"},
-    {"vep": "ESM1B", "raw_score": "ESM1b_score",
+    {"CODE": "ESM1B", "raw_score": "ESM1b_score",
      "rank_score": "ESM1b_rankscore"},
-    {"vep": "EVE", "raw_score": "EVE_score",
+    {"CODE": "EVE", "raw_score": "EVE_score",
      "rank_score": "EVE_rankscore"},
-    {"vep": "ALPHAM", "raw_score": "AlphaMissense_score",
+    {"CODE": "ALPHAM", "raw_score": "AlphaMissense_score",
      "rank_score": "AlphaMissense_rankscore"},
-    {"vep": "SIFT", "raw_score": "SIFT_score",
+    {"CODE": "SIFT", "raw_score": "SIFT_score",
      "rank_score": "SIFT_converted_rankscore"},
-    {"vep": "SIFT4G", "raw_score": "SIFT4G_score",
+    {"CODE": "SIFT4G", "raw_score": "SIFT4G_score",
      "rank_score": "SIFT4G_converted_rankscore"},
-    {"vep": "POLYP2HDIV", "raw_score": "Polyphen2_HDIV_score",
+    {"CODE": "POLYP2HDIV", "raw_score": "Polyphen2_HDIV_score",
      "rank_score": "Polyphen2_HDIV_rankscore"},
-    {"vep": "POLYP2HVAR", "raw_score": "Polyphen2_HVAR_score",
+    {"CODE": "POLYP2HVAR", "raw_score": "Polyphen2_HVAR_score",
      "rank_score": "Polyphen2_HVAR_rankscore"},
-    {"vep": "LRT", "raw_score": "LRT_score",
+    {"CODE": "LRT", "raw_score": "LRT_score",
      "rank_score": "LRT_converted_rankscore"},
-    {"vep": "MUTTASTE", "raw_score": "MutationTaster_score",
+    {"CODE": "MUTTASTE", "raw_score": "MutationTaster_score",
      "rank_score": "MutationTaster_converted_rankscore"},
-    {"vep": "MUTASSESS", "raw_score": "MutationAssessor_score",
+    {"CODE": "MUTASSESS", "raw_score": "MutationAssessor_score",
      "rank_score": "MutationAssessor_rankscore"},
-    {"vep": "FATHMM", "raw_score": "FATHMM_score",
+    {"CODE": "FATHMM", "raw_score": "FATHMM_score",
      "rank_score": "FATHMM_converted_rankscore"},
-    {"vep": "PROVEAN", "raw_score": "PROVEAN_score",
+    {"CODE": "PROVEAN", "raw_score": "PROVEAN_score",
      "rank_score": "PROVEAN_converted_rankscore"},
-    {"vep": "VEST4", "raw_score": "VEST4_score",
+    {"CODE": "VEST4", "raw_score": "VEST4_score",
      "rank_score": "VEST4_rankscore"},
-    {"vep": "METASVM", "raw_score": "MetaSVM_score",
+    {"CODE": "METASVM", "raw_score": "MetaSVM_score",
      "rank_score": "MetaSVM_rankscore"},
-    {"vep": "METALR", "raw_score": "MetaLR_score",
+    {"CODE": "METALR", "raw_score": "MetaLR_score",
      "rank_score": "MetaLR_rankscore"},
-    {"vep": "METARNN", "raw_score": "MetaRNN_score",
+    {"CODE": "METARNN", "raw_score": "MetaRNN_score",
      "rank_score": "MetaRNN_rankscore"},
-    {"vep": "MCAP", "raw_score": "M_CAP_score",
+    {"CODE": "MCAP", "raw_score": "M_CAP_score",
      "rank_score": "M_CAP_rankscore"},
-    {"vep": "MUTPRED", "raw_score": "MutPred_score",
+    {"CODE": "MUTPRED", "raw_score": "MutPred_score",
      "rank_score": "MutPred_rankscore"},
-    {"vep": "MVP", "raw_score": "MVP_score",
+    {"CODE": "MVP", "raw_score": "MVP_score",
      "rank_score": "MVP_rankscore"},
-    {"vep": "MPC", "raw_score": "MPC_score",
+    {"CODE": "MPC", "raw_score": "MPC_score",
      "rank_score": "MPC_rankscore"},
-    {"vep": "PRIMAI", "raw_score": "PrimateAI_score",
+    {"CODE": "PRIMAI", "raw_score": "PrimateAI_score",
      "rank_score": "PrimateAI_rankscore"},
-    {"vep": "DEOGEN2", "raw_score": "DEOGEN2_score",
+    {"CODE": "DEOGEN2", "raw_score": "DEOGEN2_score",
      "rank_score": "DEOGEN2_rankscore"},
-    {"vep": "BAYESDAAF", "raw_score": "BayesDel_addAF",
+    {"CODE": "BAYESDAAF", "raw_score": "BayesDel_addAF",
      "rank_score": "BayesDel_addAF_rankscore"},
-    {"vep": "BAYESDNAF", "raw_score": "BayesDel_noAF_score",
+    {"CODE": "BAYESDNAF", "raw_score": "BayesDel_noAF_score",
      "rank_score": "BayesDel_noAF_rankscore"},
-    {"vep": "CLINPRED", "raw_score": "ClinPred_score",
+    {"CODE": "CLINPRED", "raw_score": "ClinPred_score",
      "rank_score": "ClinPred_rankscore"},
-    {"vep": "LISTS2", "raw_score": "LIST_S2_score",
+    {"CODE": "LISTS2", "raw_score": "LIST_S2_score",
      "rank_score": "LIST_S2_rankscore"},
-    {"vep": "CADD", "raw_score": "CADD_raw",
+    {"CODE": "CADD", "raw_score": "CADD_raw",
      "rank_score": "CADD_raw_rankscore"},
-    {"vep": "DANN", "raw_score": "DANN_score",
+    {"CODE": "DANN", "raw_score": "DANN_score",
      "rank_score": "DANN_rankscore"},
-    {"vep": "FATHMMMLK", "raw_score": "fathmm_MKL_coding_score",
+    {"CODE": "FATHMMMLK", "raw_score": "fathmm_MKL_coding_score",
      "rank_score": "fathmm_MKL_coding_rankscore"},
-    {"vep": "FATHMMXF", "raw_score": "fathmm_XF_coding_score",
+    {"CODE": "FATHMMXF", "raw_score": "fathmm_XF_coding_score",
      "rank_score": "fathmm_XF_coding_rankscore"},
-    {"vep": "EIGEN", "raw_score": "Eigen_raw_coding",
+    {"CODE": "EIGEN", "raw_score": "Eigen_raw_coding",
      "rank_score": "Eigen_raw_coding_rankscore"},
-    {"vep": "EIGENPC", "raw_score": "Eigen_PC_raw_coding",
+    {"CODE": "EIGENPC", "raw_score": "Eigen_PC_raw_coding",
      "rank_score": "Eigen_PC_raw_coding_rankscore"},
-    {"vep": "GENCANYON", "raw_score": "GenoCanyon_score",
+    {"CODE": "GENCANYON", "raw_score": "GenoCanyon_score",
      "rank_score": "GenoCanyon_rankscore"},
-    {"vep": "INTFITCONS", "raw_score": "Integrated_fitCons_score",
+    {"CODE": "INTFITCONS", "raw_score": "Integrated_fitCons_score",
      "rank_score": "Integrated_fitCons_rankscore"},
-    {"vep": "GM12878FC", "raw_score": "GM12878_fitCons_score",
+    {"CODE": "GM12878FC", "raw_score": "GM12878_fitCons_score",
      "rank_score": "GM12878_fitCons_rankscore"},
-    {"vep": "H1HESCFC", "raw_score": "H1_hESC_fitCons_score",
+    {"CODE": "H1HESCFC", "raw_score": "H1_hESC_fitCons_score",
      "rank_score": "H1_hESC_fitCons_rankscore"},
-    {"vep": "HUVECFC", "raw_score": "HUVEC_fitCons_score",
+    {"CODE": "HUVECFC", "raw_score": "HUVEC_fitCons_score",
      "rank_score": "HUVEC_fitCons_rankscore"},
-    {"vep": "LINSIGHT", "raw_score": "LINSIGHT",
+    {"CODE": "LINSIGHT", "raw_score": "LINSIGHT",
      "rank_score": "LINSIGHT_rankscore"},
-    {"vep": "GERPRS", "raw_score": "GERP_RS",
+    {"CODE": "GERPRS", "raw_score": "GERP_RS",
      "rank_score": "GERP_RS_rankscore"},
-    {"vep": "PHYLP100VERT", "raw_score": "phyloP100way_vertebrate",
+    {"CODE": "PHP100VERT", "raw_score": "phyloP100way_vertebrate",
      "rank_score": "phyloP100way_vertebrate_rankscore"},
-    {"vep": "PHYLP470MAM", "raw_score": "phyloP470way_mammalian",
+    {"CODE": "PHP470MAM", "raw_score": "phyloP470way_mammalian",
      "rank_score": "phyloP470way_mammalian_rankscore"},
-    {"vep": "PHYLP17PRI", "raw_score": "phyloP17way_primate",
+    {"CODE": "PHP17PRI", "raw_score": "phyloP17way_primate",
      "rank_score": "phyloP17way_primate_rankscore"},
-    {"vep": "PHCONS100VERT",
+    {"CODE": "PHC100VERT",
      "raw_score": "phastCons100way_vertebrate",
      "rank_score": "phastCons100way_vertebrate_rankscore"},
-    {"vep": "PHCONS470MAM",
+    {"CODE": "PHC470MAM",
      "raw_score": "phastCons470way_mammalian",
      "rank_score": "phastCons470way_mammalian_rankscore"},
-    {"vep": "PHCONS17PRI", "raw_score": "phastCons17way_primate",
+    {"CODE": "PHC17PRI", "raw_score": "phastCons17way_primate",
      "rank_score": "phastCons17way_primate_rankscore"},
-    {"vep": "SIPHY29LO", "raw_score": "SiPhy_29way_logOdds",
+    {"CODE": "SIPHY29LO", "raw_score": "SiPhy_29way_logOdds",
      "rank_score": "SiPhy_29way_logOdds_rankscore"},
-    {"vep": "BSTATISTIC", "raw_score": "bStatistic",
+    {"CODE": "BSTAT", "raw_score": "bStatistic",
      "rank_score": "bStatistic_converted_rankscore"}
 ]
 VARIANT_EFFECT_SOURCE_DATA = [
@@ -168,8 +169,8 @@ class RepositoryLoader:
         return val
 
     def _derive_variant_effect_source_columns(self, row):
-        source_name = re.match("(.+)_rankscore", row["RANK_SCORE"]).group(1)
-        return [row["VEP"], source_name, "VEP", source_name]
+        source_name = re.match("(.+)_rankscore", row["rank_score"]).group(1)
+        return [row["CODE"], source_name, "VEP", source_name]
 
     def _task_full_path_name(task: str, file_name: str):
         return os.path.join(DATA_FOLDER, task, file_name)
@@ -191,30 +192,35 @@ class RepositoryLoader:
     def init_variant_effect_source(self):
 
         variant_effect_source_df = pd.DataFrame(
-            data=VEP_COLUMN_LIST,
+            data=VEP_COLUMN_LIST)
+        """
             columns=['VEP', 'RAW_SCORE', 'RANK_SCORE']
         )
+        """
         ves_columns = TABLE_DEFS["VARIANT_EFFECT_SOURCE"].columns
         ves_file_name = TABLE_DEFS["VARIANT_EFFECT_SOURCE"].file_name
         variant_effect_source_df[ves_columns] =\
             variant_effect_source_df.apply(
-                                self._derive_variant_effect_source_columns)
+                                self._derive_variant_effect_source_columns,
+                                axis=1, result_type="expand")
 
         variant_effect_source_df[ves_columns].to_csv(
             os.path.join(DATA_FOLDER,
                          "variant_effect_source.csv"),
             index=False)
 
+        vds_columns = TABLE_DEFS["VARIANT_DATA_SOURCE"].columns
+        vds_file_name = TABLE_DEFS["VARIANT_DATA_SOURCE"].file_name
         variant_data_source_df = pd.DataFrame(
             data=np.array(VARIANT_DATA_SOURCE_DATA),
-            columns=ves_columns
+            columns=vds_columns
             )
         variant_data_source_df.to_csv(os.path.join(DATA_FOLDER,
-                                      ves_file_name),
+                                      vds_file_name),
                                       index=False)
 
-    def _build_excep_where_clause(self, column_list: List(str),
-                                  suffixes: List(str)):
+    def _build_excep_where_clause(self, column_list: list[str],
+                                  suffixes: list[str]):
         """
         Builds a where clause to be used in a DataFrame.query method
         where it checks for inequality between any of the columns
@@ -245,8 +251,8 @@ class RepositoryLoader:
                      now_str_compact() + ".csv")
 
     def _upsert_repository_file(self, new_data: pd.DataFrame, task: str,
-                                columns: List(str), repo_file_name: str,
-                                pk_columns: List(str)):
+                                columns: list[str], repo_file_name: str,
+                                pk_columns: list[str]):
         """
         General function for updating one of the repository data files
         with new data.
@@ -425,7 +431,7 @@ class RepositoryLoader:
             vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
                             [vep_columns["raw_score"],
                              vep_columns["rank_score"]]]
-            vep_df["SCORE_SOURCE"] = vep_columns["vep"]
+            vep_df["SCORE_SOURCE"] = vep_columns["CODE"]
             vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE",
                                    vep_columns["rank_score"]: "RANK_SCORE"},
                           inplace=True)
