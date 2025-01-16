@@ -1,6 +1,6 @@
 import pandas as pd
 from .model import (
-    VariantBenchmarkMetrics
+    VEAnalysisResult
 )
 from .repository import (
      VariantEffectScoreRepository,
@@ -17,13 +17,13 @@ VARIANT_EFFECT_SCORE_COLS = ["SCORE_SOURCE"] +\
     VARIANT_PK_COLUMNS + ["RANK_SCORE"]
 
 
-class VariantPredictionReporter:
+class VEAnalysisReporter:
 
     def _write_metric_dataframe(self, out, metric_df: pd.DataFrame):
         out.write(metric_df.to_string())
         new_line(out)
 
-    def _write_summary(self, out, metrics: VariantBenchmarkMetrics):
+    def _write_summary(self, out, metrics: VEAnalysisResult):
         new_line(out)
         out.write("Summary metrics for Variant Effect Prediction Benchmark: " +
                   now_str_basic_format())
@@ -51,7 +51,7 @@ class VariantPredictionReporter:
         if metrics.mwu_metrics is not None:
             pass
 
-    def write_summary(self, metrics: VariantBenchmarkMetrics,
+    def write_summary(self, metrics: VEAnalysisResult,
                       dir: str = None):
         if dir is not None:
             outfile = os.path.join(dir, now_str_compact("variant_bm_summary")

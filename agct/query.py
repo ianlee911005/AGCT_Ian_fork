@@ -14,12 +14,12 @@ from .repository import (
     VariantEffectSourceRepository,
     VariantEffectScoreRepository
 )
-from .model import VariantQueryParams
+from .model import VEQueryCriteria
 
 import pandas as pd
 
 
-def cleanup_variant_query_params(params: VariantQueryParams):
+def cleanup_variant_query_params(params: VEQueryCriteria):
     if params.gene_symbols is not None:
         if len(params.gene_symbols) == 0:
             params.gene_symbols = None
@@ -43,7 +43,7 @@ def cleanup_variant_query_params(params: VariantQueryParams):
     return params
 
 
-class VariantQueryMgr:
+class VEBenchmarkQueryMgr:
     """
     Methods to query the variant repository
     """
@@ -125,7 +125,7 @@ class VariantQueryMgr:
             filter_name)
 
     def get_variants(self, task_name: str,
-                     query_criteria: VariantQueryParams = None
+                     query_criteria: VEQueryCriteria = None
                      ) -> pd.DataFrame:
         """
         Fetches variants. The optional parameters are filter criteria used to
