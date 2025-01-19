@@ -7,6 +7,7 @@ details of the repository structure.
 import os
 import pandas as pd
 from typing import List, Dict
+<<<<<<< HEAD
 from util import ParameterizedSingleton
 import threading
 from dataclasses import dataclass, field
@@ -15,6 +16,16 @@ from pd_util import (
     build_dataframe_where_clause
 )
 from model import VariantFilterDf, VariantQueryParams
+=======
+from .util import ParameterizedSingleton
+import threading
+from dataclasses import dataclass, field
+from .pd_util import (
+    filter_dataframe_by_list,
+    build_dataframe_where_clause
+)
+from .model import VariantFilterDf, VEQueryCriteria
+>>>>>>> upstream/feature-phase2
 
 
 TASK_SUBFOLDER = {
@@ -91,7 +102,11 @@ VARIANT_EFFECT_SCORE_TABLE_DEF = TableDef(DATA_FOLDER,
 
 VARIANT_TASK_TABLE_DEF = TableDef(DATA_FOLDER,
                                   "variant_task.csv",
+<<<<<<< HEAD
                                   ["CODE"], ["NAME", "SOURCE_TYPE", "DESCRIPTION"])
+=======
+                                  ["CODE"], ["NAME", "DESCRIPTION"])
+>>>>>>> upstream/feature-phase2
 
 VARIANT_EFFECT_SOURCE_TABLE_DEF =\
     TableDef(DATA_FOLDER,
@@ -484,7 +499,11 @@ class VariantRepository:
     def get_all(self) -> pd.DataFrame:
         return self._cache.data_frame.copy(deep=True)
 
+<<<<<<< HEAD
     def get(self, qry: VariantQueryParams = None) -> pd.DataFrame:
+=======
+    def get(self, qry: VEQueryCriteria = None) -> pd.DataFrame:
+>>>>>>> upstream/feature-phase2
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.
@@ -556,7 +575,11 @@ class VariantEffectLabelRepository:
                               how="inner")
 
     def get(self, task_name: str,
+<<<<<<< HEAD
             qry: VariantQueryParams = None) -> pd.DataFrame:
+=======
+            qry: VEQueryCriteria = None) -> pd.DataFrame:
+>>>>>>> upstream/feature-phase2
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.
@@ -630,15 +653,25 @@ class VariantEffectScoreRepository:
 
     def get_all_by_task(self, task_name: str) -> pd.DataFrame:
         label_df = self._cache.get_data_frame(task_name)
+<<<<<<< HEAD
         variant_df = self._variant_repo.get(variant_ids=label_df[
             VARIANT_PK_COLUMNS], include_variant_ids=True)
+=======
+        query_criteria = VEQueryCriteria(variant_ids=label_df[
+            VARIANT_PK_COLUMNS], include_variant_ids=True)
+        variant_df = self._variant_repo.get(query_criteria)
+>>>>>>> upstream/feature-phase2
         return label_df.merge(variant_df, on=VARIANT_PK_COLUMNS,
                               how="inner")
 
     def get(self, task_name: str,
             variant_effect_sources: list[str] | str = None,
             include_variant_effect_sources: bool = True,
+<<<<<<< HEAD
             qry: VariantQueryParams = None) -> pd.DataFrame:
+=======
+            qry: VEQueryCriteria = None) -> pd.DataFrame:
+>>>>>>> upstream/feature-phase2
         """
         Fetches variants. The optional parameters are filter criteria used to
         limit the set of variants returned.

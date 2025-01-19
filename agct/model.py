@@ -76,7 +76,11 @@ class VariantFilterDf:
 
 
 @dataclass
+<<<<<<< HEAD
 class VariantQueryParams:
+=======
+class VEQueryCriteria:
+>>>>>>> upstream/feature-phase2
     """
     Model object that represents variant query criteria.
 
@@ -137,7 +141,11 @@ class VariantBenchmarkRoc:
 
 
 @dataclass
+<<<<<<< HEAD
 class VariantBenchmarkMetrics:
+=======
+class VEAnalysisResult:
+>>>>>>> upstream/feature-phase2
     """
     Roc_aucs – A dataframe containing columns: variant_effect_source,
       roc_auc, num_variants, num_positive_labels, num_negative_labels
@@ -150,8 +158,12 @@ class VariantBenchmarkMetrics:
     Only populated if parameter, list_variants is True.
     """
 
+<<<<<<< HEAD
     vep_min_overlap_percent: float
     variant_vep_retention_percent: float
+=======
+    num_variants_included: int
+>>>>>>> upstream/feature-phase2
     num_user_variants: int
     general_metrics: pd.DataFrame
     roc_metrics: pd.DataFrame
