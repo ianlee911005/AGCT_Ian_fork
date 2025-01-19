@@ -7,9 +7,15 @@ import pandas as pd
 import numpy as np
 import re
 from typing import List
+<<<<<<< HEAD
 from util import FileUtil
 from date_util import now_str_basic_format
 from repository import DATA_FOLDER, TASK_FOLDERS, TABLE_DEFS
+=======
+from .file_util import create_folder
+from .date_util import now_str_compact
+from .repository import DATA_FOLDER, TASK_FOLDERS, TABLE_DEFS
+>>>>>>> upstream/feature-phase2
 
 
 COLUMN_NAME_MAP = {
@@ -31,6 +37,7 @@ COLUMN_NAME_MAP = {
     "Ensembl_proteinid": "ENSEMBL_PROTEIN_ID"
 }
 VEP_COLUMN_LIST = [
+<<<<<<< HEAD
     {"vep": "REVEL", "raw_score": "REVEL_score",
      "rank_score": "REVEL_rankscore"},
     {"vep": "GMVP", "raw_score": "gMVP_score", "rank_score": "gMVP_rankscore"},
@@ -137,6 +144,115 @@ VEP_COLUMN_LIST = [
     {"vep": "SIPHY29LO", "raw_score": "SiPhy_29way_logOdds",
      "rank_score": "SiPhy_29way_logOdds_rankscore"},
     {"vep": "BSTATISTIC", "raw_score": "bStatistic",
+=======
+    {"CODE": "REVEL", "raw_score": "REVEL_score",
+     "rank_score": "REVEL_rankscore"},
+    {"CODE": "GMVP", "raw_score": "gMVP_score", 
+     "rank_score": "gMVP_rankscore"},
+    {"CODE": "VAR_R", "raw_score": "VARITY_R_score",
+     "rank_score": "VARITY_R_rankscore"},
+    {"CODE": "VAR_ER", "raw_score": "VARITY_ER_score",
+     "rank_score": "VARITY_ER_rankscore"},
+    {"CODE": "VAR_RL", "raw_score": "VARITY_R_LOO_score",
+     "rank_score": "VARITY_R_LOO_rankscore"},
+    {"CODE": "VAR_ERL", "raw_score": "VARITY_ER_LOO_score",
+     "rank_score": "VARITY_ER_LOO_rankscore"},
+    {"CODE": "ESM1B", "raw_score": "ESM1b_score",
+     "rank_score": "ESM1b_rankscore"},
+    {"CODE": "EVE", "raw_score": "EVE_score",
+     "rank_score": "EVE_rankscore"},
+    {"CODE": "ALPHAM", "raw_score": "AlphaMissense_score",
+     "rank_score": "AlphaMissense_rankscore"},
+    {"CODE": "SIFT", "raw_score": "SIFT_score",
+     "rank_score": "SIFT_converted_rankscore"},
+    {"CODE": "SIFT4G", "raw_score": "SIFT4G_score",
+     "rank_score": "SIFT4G_converted_rankscore"},
+    {"CODE": "POLYP2HDIV", "raw_score": "Polyphen2_HDIV_score",
+     "rank_score": "Polyphen2_HDIV_rankscore"},
+    {"CODE": "POLYP2HVAR", "raw_score": "Polyphen2_HVAR_score",
+     "rank_score": "Polyphen2_HVAR_rankscore"},
+    {"CODE": "LRT", "raw_score": "LRT_score",
+     "rank_score": "LRT_converted_rankscore"},
+    {"CODE": "MUTTASTE", "raw_score": "MutationTaster_score",
+     "rank_score": "MutationTaster_converted_rankscore"},
+    {"CODE": "MUTASSESS", "raw_score": "MutationAssessor_score",
+     "rank_score": "MutationAssessor_rankscore"},
+    {"CODE": "FATHMM", "raw_score": "FATHMM_score",
+     "rank_score": "FATHMM_converted_rankscore"},
+    {"CODE": "PROVEAN", "raw_score": "PROVEAN_score",
+     "rank_score": "PROVEAN_converted_rankscore"},
+    {"CODE": "VEST4", "raw_score": "VEST4_score",
+     "rank_score": "VEST4_rankscore"},
+    {"CODE": "METASVM", "raw_score": "MetaSVM_score",
+     "rank_score": "MetaSVM_rankscore"},
+    {"CODE": "METALR", "raw_score": "MetaLR_score",
+     "rank_score": "MetaLR_rankscore"},
+    {"CODE": "METARNN", "raw_score": "MetaRNN_score",
+     "rank_score": "MetaRNN_rankscore"},
+    {"CODE": "MCAP", "raw_score": "M_CAP_score",
+     "rank_score": "M_CAP_rankscore"},
+    {"CODE": "MUTPRED", "raw_score": "MutPred_score",
+     "rank_score": "MutPred_rankscore"},
+    {"CODE": "MVP", "raw_score": "MVP_score",
+     "rank_score": "MVP_rankscore"},
+    {"CODE": "MPC", "raw_score": "MPC_score",
+     "rank_score": "MPC_rankscore"},
+    {"CODE": "PRIMAI", "raw_score": "PrimateAI_score",
+     "rank_score": "PrimateAI_rankscore"},
+    {"CODE": "DEOGEN2", "raw_score": "DEOGEN2_score",
+     "rank_score": "DEOGEN2_rankscore"},
+    {"CODE": "BAYESDAAF", "raw_score": "BayesDel_addAF",
+     "rank_score": "BayesDel_addAF_rankscore"},
+    {"CODE": "BAYESDNAF", "raw_score": "BayesDel_noAF_score",
+     "rank_score": "BayesDel_noAF_rankscore"},
+    {"CODE": "CLINPRED", "raw_score": "ClinPred_score",
+     "rank_score": "ClinPred_rankscore"},
+    {"CODE": "LISTS2", "raw_score": "LIST_S2_score",
+     "rank_score": "LIST_S2_rankscore"},
+    {"CODE": "CADD", "raw_score": "CADD_raw",
+     "rank_score": "CADD_raw_rankscore"},
+    {"CODE": "DANN", "raw_score": "DANN_score",
+     "rank_score": "DANN_rankscore"},
+    {"CODE": "FATHMMMLK", "raw_score": "fathmm_MKL_coding_score",
+     "rank_score": "fathmm_MKL_coding_rankscore"},
+    {"CODE": "FATHMMXF", "raw_score": "fathmm_XF_coding_score",
+     "rank_score": "fathmm_XF_coding_rankscore"},
+    {"CODE": "EIGEN", "raw_score": "Eigen_raw_coding",
+     "rank_score": "Eigen_raw_coding_rankscore"},
+    {"CODE": "EIGENPC", "raw_score": "Eigen_PC_raw_coding",
+     "rank_score": "Eigen_PC_raw_coding_rankscore"},
+    {"CODE": "GENCANYON", "raw_score": "GenoCanyon_score",
+     "rank_score": "GenoCanyon_rankscore"},
+    {"CODE": "INTFITCONS", "raw_score": "Integrated_fitCons_score",
+     "rank_score": "Integrated_fitCons_rankscore"},
+    {"CODE": "GM12878FC", "raw_score": "GM12878_fitCons_score",
+     "rank_score": "GM12878_fitCons_rankscore"},
+    {"CODE": "H1HESCFC", "raw_score": "H1_hESC_fitCons_score",
+     "rank_score": "H1_hESC_fitCons_rankscore"},
+    {"CODE": "HUVECFC", "raw_score": "HUVEC_fitCons_score",
+     "rank_score": "HUVEC_fitCons_rankscore"},
+    {"CODE": "LINSIGHT", "raw_score": "LINSIGHT",
+     "rank_score": "LINSIGHT_rankscore"},
+    {"CODE": "GERPRS", "raw_score": "GERP_RS",
+     "rank_score": "GERP_RS_rankscore"},
+    {"CODE": "PHP100VERT", "raw_score": "phyloP100way_vertebrate",
+     "rank_score": "phyloP100way_vertebrate_rankscore"},
+    {"CODE": "PHP470MAM", "raw_score": "phyloP470way_mammalian",
+     "rank_score": "phyloP470way_mammalian_rankscore"},
+    {"CODE": "PHP17PRI", "raw_score": "phyloP17way_primate",
+     "rank_score": "phyloP17way_primate_rankscore"},
+    {"CODE": "PHC100VERT",
+     "raw_score": "phastCons100way_vertebrate",
+     "rank_score": "phastCons100way_vertebrate_rankscore"},
+    {"CODE": "PHC470MAM",
+     "raw_score": "phastCons470way_mammalian",
+     "rank_score": "phastCons470way_mammalian_rankscore"},
+    {"CODE": "PHC17PRI", "raw_score": "phastCons17way_primate",
+     "rank_score": "phastCons17way_primate_rankscore"},
+    {"CODE": "SIPHY29LO", "raw_score": "SiPhy_29way_logOdds",
+     "rank_score": "SiPhy_29way_logOdds_rankscore"},
+    {"CODE": "BSTAT", "raw_score": "bStatistic",
+>>>>>>> upstream/feature-phase2
      "rank_score": "bStatistic_converted_rankscore"}
 ]
 VARIANT_EFFECT_SOURCE_DATA = [
@@ -159,7 +275,11 @@ VARIANT_DATA_SOURCE_DATA = [
 class RepositoryLoader:
 
     def __init__(self):
+<<<<<<< HEAD
         self._log_folder = 'log'
+=======
+        self._log_folder = None
+>>>>>>> upstream/feature-phase2
         pass
 
     def _convert_dot_to_nan(self, val):
@@ -168,17 +288,30 @@ class RepositoryLoader:
         return val
 
     def _derive_variant_effect_source_columns(self, row):
+<<<<<<< HEAD
         source_name = re.match("(.+)_rankscore", row["RANK_SCORE"]).group(1)
         return [row["VEP"], source_name, "VEP", source_name]
 
     def _task_full_path_name(self, task: str, file_name: str):
+=======
+        source_name = re.match("(.+)_rankscore", row["rank_score"]).group(1)
+        return [row["CODE"], source_name, "VEP", source_name]
+
+    def _task_full_path_name(task: str, file_name: str):
+>>>>>>> upstream/feature-phase2
         return os.path.join(DATA_FOLDER, task, file_name)
 
     def init_variant_task(self):
 
+<<<<<<< HEAD
         FileUtil.create_folder(DATA_FOLDER)
         for task_folder in TASK_FOLDERS:
             FileUtil.create_folder(task_folder)
+=======
+        create_folder(DATA_FOLDER)
+        for task_folder in TASK_FOLDERS:
+            create_folder(task_folder)
+>>>>>>> upstream/feature-phase2
 
         variant_effect_task_df = pd.DataFrame(
             data=np.array([['CANCER', 'CANCER', 'Cancer', 'Cancer']]),
@@ -191,6 +324,7 @@ class RepositoryLoader:
     def init_variant_effect_source(self):
 
         variant_effect_source_df = pd.DataFrame(
+<<<<<<< HEAD
             data=VEP_COLUMN_LIST,
             columns=['VEP', 'RAW_SCORE', 'RANK_SCORE']
         )
@@ -200,12 +334,26 @@ class RepositoryLoader:
         variant_effect_source_df[ves_columns] =\
             variant_effect_source_df.apply(
                                 self._derive_variant_effect_source_columns(variant_effect_source_df))
+=======
+            data=VEP_COLUMN_LIST)
+        """
+            columns=['VEP', 'RAW_SCORE', 'RANK_SCORE']
+        )
+        """
+        ves_columns = TABLE_DEFS["VARIANT_EFFECT_SOURCE"].columns
+        ves_file_name = TABLE_DEFS["VARIANT_EFFECT_SOURCE"].file_name
+        variant_effect_source_df[ves_columns] =\
+            variant_effect_source_df.apply(
+                                self._derive_variant_effect_source_columns,
+                                axis=1, result_type="expand")
+>>>>>>> upstream/feature-phase2
 
         variant_effect_source_df[ves_columns].to_csv(
             os.path.join(DATA_FOLDER,
                          "variant_effect_source.csv"),
             index=False)
 
+<<<<<<< HEAD
         variant_data_source_df = pd.DataFrame(
             data=np.array(VARIANT_DATA_SOURCE_DATA),
             columns=ves_columns
@@ -216,6 +364,20 @@ class RepositoryLoader:
 
     def _build_excep_where_clause(self, column_list: List[str],
                                   suffixes: List[str]):
+=======
+        vds_columns = TABLE_DEFS["VARIANT_DATA_SOURCE"].columns
+        vds_file_name = TABLE_DEFS["VARIANT_DATA_SOURCE"].file_name
+        variant_data_source_df = pd.DataFrame(
+            data=np.array(VARIANT_DATA_SOURCE_DATA),
+            columns=vds_columns
+            )
+        variant_data_source_df.to_csv(os.path.join(DATA_FOLDER,
+                                      vds_file_name),
+                                      index=False)
+
+    def _build_excep_where_clause(self, column_list: list[str],
+                                  suffixes: list[str]):
+>>>>>>> upstream/feature-phase2
         """
         Builds a where clause to be used in a DataFrame.query method
         where it checks for inequality between any of the columns
@@ -243,11 +405,19 @@ class RepositoryLoader:
     def _excep_file_full_path_name(self, task: str, repo_file_name: str):
         os.path.join(self._log_folder, task + "_" +
                      repo_file_name.removesuffix(".csv") + "_" +
+<<<<<<< HEAD
                      now_str_basic_format() + ".csv")
 
     def _upsert_repository_file(self, new_data: pd.DataFrame, task: str,
                                 columns: List[str], repo_file_name: str,
                                 pk_columns: List[str]):
+=======
+                     now_str_compact() + ".csv")
+
+    def _upsert_repository_file(self, new_data: pd.DataFrame, task: str,
+                                columns: list[str], repo_file_name: str,
+                                pk_columns: list[str]):
+>>>>>>> upstream/feature-phase2
         """
         General function for updating one of the repository data files
         with new data.
@@ -378,9 +548,14 @@ class RepositoryLoader:
             Genome assembly prior to prior_genome_assembly that we have,
             chromsome position data for. typically hg18
         """
+<<<<<<< HEAD
         path = file_folder+'/'+data_file
         variant_df = pd.read_csv(path, sep='\t')
         #variant_df = pd.read_csv(os.path.join(file_folder, data_file))
+=======
+
+        variant_df = pd.read_csv(os.path.join(file_folder, data_file))
+>>>>>>> upstream/feature-phase2
         variant_df['GENOME_ASSEMBLY'] = genome_assembly
         variant_df["RAW_LABEL"] = np.nan
         variant_df["LABEL_SOURCE"] = data_source
@@ -389,9 +564,15 @@ class RepositoryLoader:
             variant_df[["ALLELE_FREQUENCY", "ALLELE_FREQUENCY_SOURCE"]]\
                 = variant_df.apply(
                 lambda row: [row["gnomAD_exomes_AF"], "GNOMEX"] if
+<<<<<<< HEAD
                 pd.notnull(row["gnomAD_exomes_AF"]) else
                 [row["gnomAD_genomes_AF"], "GNOMGE"] if
                 pd.notnull(row["gnomAD_genomes_AF"]) else
+=======
+                not row["gnomAD_exomes_AF"].isnull() else
+                [row["gnomAD_genomes_AF"], "GNOMGE"] if
+                not row["gnomAD_genomes_AF"].isnull() else
+>>>>>>> upstream/feature-phase2
                 [np.nan, np.nan], axis=1, result_type="expand")
         else:
             variant_df[["ALLELE_FREQUENCY", "ALLELE_FREQUENCY_SOURCE"]]\
@@ -401,10 +582,17 @@ class RepositoryLoader:
         variant_df.rename(columns=COLUMN_NAME_MAP, inplace=True)
         variant_df["PRIOR_GENOME_ASSEMBLY"] = np.where(
             variant_df['PRIOR_CHROMOSOME'].isnull(),
+<<<<<<< HEAD
             None, prior_genome_assembly)
         variant_df["PRIOR_PRIOR_GENOME_ASSEMBLY"] = np.where(
             variant_df['PRIOR_PRIOR_CHROMOSOME'].isnull(),
             None, prior_prior_genome_assembly)
+=======
+            np.nan, prior_genome_assembly)
+        variant_df["PRIOR_PRIOR_GENOME_ASSEMBLY"] = np.where(
+            variant_df['PRIOR_PRIOR_CHROMOSOME'].isnull(),
+            np.nan, prior_prior_genome_assembly)
+>>>>>>> upstream/feature-phase2
         self._upsert_repository_file(variant_df, task,
                                      TABLE_DEFS["VARIANT"].columns,
                                      "variant.csv",
@@ -427,7 +615,11 @@ class RepositoryLoader:
             vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
                             [vep_columns["raw_score"],
                              vep_columns["rank_score"]]]
+<<<<<<< HEAD
             vep_df["SCORE_SOURCE"] = vep_columns["vep"]
+=======
+            vep_df["SCORE_SOURCE"] = vep_columns["CODE"]
+>>>>>>> upstream/feature-phase2
             vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE",
                                    vep_columns["rank_score"]: "RANK_SCORE"},
                           inplace=True)

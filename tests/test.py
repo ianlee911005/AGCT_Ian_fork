@@ -54,16 +54,28 @@ dfg = df.groupby("a")
 
 import numpy as np
 
+<<<<<<< HEAD
 df = pd.DataFrame({'A': ["a","a",np.nan,np.nan],
                     'B': [1, 2, 3, 4],
                     'C': [4, 6, 5, 5],
                     'D': ["a","c","b",np.nan]})
+=======
+df = pd.DataFrame({'A': ["a","a",np.nan,np.nan,"a"],
+                    'B': [1, 2, 3, 4,1],
+                    'C': [4, 6, 5, 5,4],
+                    'D': ["a","c","b",np.nan,"a"]})
+>>>>>>> upstream/feature-phase2
 g1 = df.groupby('A', group_keys=False)
 g2 = df.groupby('A', group_keys=True)
 
 
 dfqr = df.query('A != D')
 
+<<<<<<< HEAD
+=======
+xx = df.drop_duplicates()
+
+>>>>>>> upstream/feature-phase2
 def lf(x):
     ret = x/x.sum()
     return ret
@@ -111,5 +123,30 @@ def tfunc(*args):
 x,y,z = tfunc(5,6,7)
 x
 
+<<<<<<< HEAD
 
 
+=======
+import matplotlib.colors as mcolors
+
+a = mcolors.CSS4_COLORS
+
+print('start')
+for r in df:
+    print(r)
+
+for i,r in df.iterrows():
+    print(str(i) + ": " + str(r))
+
+pass
+
+import os
+y = ("a","b")
+x = os.path.join(*y)
+pass
+
+dic = [{"a":1,"b":2},{"a":5,"b":6}]
+
+df3= pd.DataFrame([{"a":1,"b":2},{"a":5,"b":6}],columns=["A","B"])
+pass
+>>>>>>> upstream/feature-phase2

@@ -1,5 +1,5 @@
 import pandas as pd
-from util import str_or_list_to_list
+from .util import str_or_list_to_list
 
 
 def filter_dataframe_by_list(data_frame: pd.DataFrame,

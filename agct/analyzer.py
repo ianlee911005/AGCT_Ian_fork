@@ -7,8 +7,13 @@ from sklearn.metrics import (
      auc
 )
 from .model import (
+<<<<<<< HEAD
     VariantQueryParams,
     VariantBenchmarkMetrics
+=======
+    VEQueryCriteria,
+    VEAnalysisResult
+>>>>>>> upstream/feature-phase2
 )
 from .repository import (
      VariantEffectScoreRepository,
@@ -22,7 +27,11 @@ VARIANT_EFFECT_SCORE_COLS = ["SCORE_SOURCE"] +\
     VARIANT_PK_COLUMNS + ["RANK_SCORE"]
 
 
+<<<<<<< HEAD
 class VariantPredictionAnalyzer:
+=======
+class VEAnalyzer:
+>>>>>>> upstream/feature-phase2
 
     def __init__(self, variant_effect_score_repo: VariantEffectScoreRepository,
                  variant_effect_label_repo: VariantEffectLabelRepository,
@@ -38,7 +47,11 @@ class VariantPredictionAnalyzer:
             column_name_map: dict = None,
             variant_effect_sources: list[str] = None,
             include_variant_effect_sources: bool = None,
+<<<<<<< HEAD
             variant_query_criteria: VariantQueryParams = None,
+=======
+            variant_query_criteria: VEQueryCriteria = None,
+>>>>>>> upstream/feature-phase2
             vep_min_overlap_percent: float = 0,
             variant_vep_retention_percent: float = 0) -> pd.DataFrame:
 
@@ -77,6 +90,7 @@ class VariantPredictionAnalyzer:
         # First restrict the set of system vep scores to the variants
         # in the universe. Then compute how many variants there are for
         # each vep. Then we only keep the vep scores for veps where
+<<<<<<< HEAD
         # the variant count is above the vep_min_overlap_count        
         vep_min_overlap_count = (len(variant_universe_pks_df) *
                                  vep_min_overlap_percent)
@@ -84,6 +98,17 @@ class VariantPredictionAnalyzer:
         system_ve_scores_count_by_vep = system_ve_scores_df.merge(
              variant_universe_pks_df, how="inner",
              on=VARIANT_PK_COLUMNS).groupby("SCORE_SOURCE").size()
+=======
+        # the variant count is above the vep_min_overlap_count
+        vep_min_overlap_count = (len(variant_universe_pks_df) *
+                                 vep_min_overlap_percent * 0.01)
+        system_ve_scores_df = filter_dataframe_by_list(
+            system_ve_scores_df, variant_universe_pks_df,
+            VARIANT_PK_COLUMNS)
+        retained_veps = []
+        system_ve_scores_count_by_vep = system_ve_scores_df.groupby(
+            "SCORE_SOURCE").size()
+>>>>>>> upstream/feature-phase2
         retained_veps = system_ve_scores_count_by_vep[
             system_ve_scores_count_by_vep >= vep_min_overlap_count
             ].index
@@ -95,7 +120,11 @@ class VariantPredictionAnalyzer:
         # scores. We then retain only those variants where the number of
         # veps is above variant_vep_retention_count
         variant_vep_retention_count = (len(retained_veps) *
+<<<<<<< HEAD
                                        variant_vep_retention_percent)
+=======
+                                       variant_vep_retention_percent * 0.01)
+>>>>>>> upstream/feature-phase2
 
         system_ve_scores_count_by_var = system_ve_scores_df.groupby(
              VARIANT_PK_COLUMNS).size()
@@ -116,7 +145,11 @@ class VariantPredictionAnalyzer:
                                                          retained_variants,
                                                          VARIANT_PK_COLUMNS)
         analysis_labels_df = self._variant_effect_label_repo.get(
+<<<<<<< HEAD
             task_name, VariantQueryParams(variant_ids=retained_variants))
+=======
+            task_name, VEQueryCriteria(variant_ids=retained_variants))
+>>>>>>> upstream/feature-phase2
         analysis_ve_scores_labels_df = analysis_ve_scores_df.merge(
             analysis_labels_df, how="inner", on=VARIANT_PK_COLUMNS)
         return analysis_ve_scores_labels_df
@@ -210,6 +243,11 @@ class VariantPredictionAnalyzer:
                 df = df.merge(self._variant_effect_source_repo.get_all()[
                     ["CODE", "NAME"]], how="left", left_on="SCORE_SOURCE",
                             right_on="CODE")
+<<<<<<< HEAD
+=======
+                df.loc[df["NAME"].isna(), "NAME"] = \
+                    df.loc[df["NAME"].isna(), "SCORE_SOURCE"]
+>>>>>>> upstream/feature-phase2
                 df.rename(columns={"NAME": "SOURCE_NAME"}, inplace=True)
                 df.drop(columns="CODE", inplace=True)
             return_dfs.append(df)
@@ -218,7 +256,11 @@ class VariantPredictionAnalyzer:
     def _compute_metrics(
             self, task_name: str, ve_scores_labels_df: pd.DataFrame,
             metrics: list[str], list_variants: bool = False
+<<<<<<< HEAD
     ) -> VariantBenchmarkMetrics:
+=======
+    ):
+>>>>>>> upstream/feature-phase2
 
         grouped_ve_scores_labels = ve_scores_labels_df.groupby("SCORE_SOURCE")
         general_metrics_df = grouped_ve_scores_labels.apply(
@@ -241,6 +283,7 @@ class VariantPredictionAnalyzer:
                                                        VARIANT_PK_COLUMNS]
         else:
             included_variants_df = None
+<<<<<<< HEAD
         general_metrics_df, roc_df, pr_df, mwu_df, roc_curve_coords_df, \
             pr_curve_coords_df = self._add_info_to_metric_dataframes(
                 general_metrics_df, roc_df, pr_df,
@@ -251,6 +294,14 @@ class VariantPredictionAnalyzer:
 
             general_metrics_df, roc_df, pr_df, mwu_df, roc_curve_coords_df,
             pr_curve_coords_df, included_variants_df)
+=======
+        metric_dataframes = self._add_info_to_metric_dataframes(
+                general_metrics_df, roc_df, pr_df,
+                mwu_df)
+        metric_dataframes.extend([roc_curve_coords_df, pr_curve_coords_df,
+                                  included_variants_df])
+        return metric_dataframes
+>>>>>>> upstream/feature-phase2
 
     def compute_metrics(
             self,
@@ -259,11 +310,19 @@ class VariantPredictionAnalyzer:
             column_name_map: dict = None,
             variant_effect_sources: list[str] = None,
             include_variant_effect_sources: bool = True,
+<<<<<<< HEAD
             variant_query_criteria: VariantQueryParams = None,
             vep_min_overlap_percent: float = 0,
             variant_vep_retention_percent: float = 0,
             metrics: str | list[str] = "roc",
             list_variants: bool = False) -> VariantBenchmarkMetrics:
+=======
+            variant_query_criteria: VEQueryCriteria = None,
+            vep_min_overlap_percent: float = 0,
+            variant_vep_retention_percent: float = 0,
+            metrics: str | list[str] = "roc",
+            list_variants: bool = False) -> VEAnalysisResult:
+>>>>>>> upstream/feature-phase2
 
         scores_and_labels_df = self.get_analysis_scores_and_labels(
             task_name,
@@ -277,5 +336,21 @@ class VariantPredictionAnalyzer:
 
         if type(metrics) is str:
             metrics = [metrics]
+<<<<<<< HEAD
         return self._compute_metrics(task_name, scores_and_labels_df,
                                      metrics, list_variants)
+=======
+        general_metrics_df, roc_df, pr_df, mwu_df, roc_curve_coords_df, \
+            pr_curve_coords_df, included_variants_df = \
+            self._compute_metrics(task_name, scores_and_labels_df,
+                                  metrics, list_variants)
+        num_variants = len(
+            scores_and_labels_df[VARIANT_PK_COLUMNS].drop_duplicates())
+        num_user_variants = None if user_ve_scores is None else \
+            len(user_ve_scores)
+        return VEAnalysisResult(num_variants,
+            num_user_variants, general_metrics_df, roc_df,
+            pr_df, mwu_df, roc_curve_coords_df,
+            pr_curve_coords_df, included_variants_df)
+        
+>>>>>>> upstream/feature-phase2

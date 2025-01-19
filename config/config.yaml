@@ -1,4 +1,35 @@
 ---
 
 repository:
+<<<<<<< HEAD
   root_dir: ~/gitrepo/agct_dev
+=======
+  root_dir: ~/gitrepo/agct_dev
+plot:
+  max_num_ves_curves_per_plot: 10
+  line_width: 2
+  line_style: solid
+  user_ves_color: red
+  sys_ves_colors:
+    - maroon
+    - darkkhaki
+    - sandybrown
+    - orange
+    - yellow
+    - green
+    - lime
+    - aqua
+    - blue
+    - violet
+  roc_title: ROC Curve
+  file_dpi: 300
+  bbox_inches: tight
+  x_axis_font_size: 25
+  y_axis_font_size: 25
+  label_size: 20
+  title_font_size: 30
+  legend_font_size: 20
+  legend_line_width: 3.0
+
+
+>>>>>>> upstream/feature-phase2
