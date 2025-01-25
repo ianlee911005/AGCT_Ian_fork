@@ -5,7 +5,7 @@ a proper one in the future.
 """
 
 import os
-from .date_util import now_str_compact
+from date_util import now_str_compact
 
 
 def new_line(out, num_nls: int = 1):
