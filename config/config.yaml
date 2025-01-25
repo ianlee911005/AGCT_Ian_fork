@@ -1,9 +1,6 @@
 ---
 
 repository:
-<<<<<<< HEAD
-  root_dir: ~/gitrepo/agct_dev
-=======
   root_dir: ~/gitrepo/agct_dev
 plot:
   max_num_ves_curves_per_plot: 10
@@ -32,4 +29,3 @@ plot:
   legend_line_width: 3.0
 
 
->>>>>>> upstream/feature-phase2

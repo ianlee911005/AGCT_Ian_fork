@@ -43,9 +43,9 @@ def migrate_task_files(loader: RepositoryLoader, task: str):
 
 
 loader = RepositoryLoader()
-# loader.init_variant_task()
+loader.init_variant_task()
 loader.init_variant_effect_source()
-migrate_task_files(loader, "cancer")
-migrate_task_files(loader, "adrd")
-migrate_task_files(loader, "chd")
+#migrate_task_files(loader, "cancer")
+#migrate_task_files(loader, "adrd")
+#migrate_task_files(loader, "chd")
 migrate_task_files(loader, "ddd")

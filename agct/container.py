@@ -13,27 +13,17 @@ from .repository import (
     VariantEffectSourceRepository,
     VariantTaskRepository
 )
-<<<<<<< HEAD
-from .analyzer import VariantPredictionAnalyzer
-from .query import VariantQueryMgr
-from .reporter import VariantPredictionReporter
-=======
 from .analyzer import VEAnalyzer
 from .query import VEBenchmarkQueryMgr
 from .reporter import VEAnalysisReporter
 from .plotter import VEAnalysisPlotter
 from .exporter import VEAnalysisExporter
->>>>>>> upstream/feature-phase2
 
 import yaml
 import os
 
 
-<<<<<<< HEAD
-class VBMContainer:
-=======
 class VEBenchmarkContainer:
->>>>>>> upstream/feature-phase2
 
     def __init__(self, app_root: str = "."):
         with (open(os.path.join(app_root, "config", "config.yaml"), "r") as
@@ -57,18 +47,6 @@ class VEBenchmarkContainer:
         self._variant_effect_source_repo = VariantEffectSourceRepository(
             self._repo_session_context,
             self._score_repo)
-<<<<<<< HEAD
-        self._analyzer = VariantPredictionAnalyzer(
-            self._score_repo,
-            self._label_repo,
-            self._variant_effect_source_repo)
-        self._query_mgr = VariantQueryMgr(self._label_repo,
-                                          self._variant_repo,
-                                          self._variant_task_repo,
-                                          self._variant_effect_source_repo,
-                                          self._score_repo)
-        self._reporter = VariantPredictionReporter()
-=======
         self._analyzer = VEAnalyzer(
             self._score_repo,
             self._label_repo,
@@ -81,7 +59,6 @@ class VEBenchmarkContainer:
         self._reporter = VEAnalysisReporter()
         self._plotter = VEAnalysisPlotter(self.config["plot"])
         self._exporter = VEAnalysisExporter()
->>>>>>> upstream/feature-phase2
 
     @property
     def analyzer(self):
@@ -94,8 +71,6 @@ class VEBenchmarkContainer:
     @property
     def reporter(self):
         return self._reporter
-<<<<<<< HEAD
-=======
 
     @property
     def plotter(self):
@@ -104,4 +79,3 @@ class VEBenchmarkContainer:
     @property
     def exporter(self):
         return self._exporter
->>>>>>> upstream/feature-phase2
