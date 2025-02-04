@@ -173,7 +173,10 @@ class RepositoryLoader:
         return [row["CODE"], source_name, "VEP", source_name]
 
     def _task_full_path_name( self, task: str, file_name: str):
-        return os.path.join(DATA_FOLDER, task, file_name)
+        if task == 'None':
+            return os.path.join(DATA_FOLDER, file_name)
+        else:
+            return os.path.join(DATA_FOLDER, task, file_name)
 
     def init_variant_task(self):
 
@@ -182,7 +185,7 @@ class RepositoryLoader:
             create_folder(task_folder)
 
         variant_effect_task_df = pd.DataFrame(
-            data=np.array([['CANCER', 'CANCER', 'Cancer', 'Cancer']]),
+            data=np.array([['CANCER', 'cancer', 'Cancer', 'Cancer'], ['DDD', 'ddd', 'DDD', 'DDD'], ['ADRD', 'adrd', 'ADRD', 'ADRD'], ['ASD', 'asd', 'ASD', 'ASD'], ['CHD', 'chd', 'CHD', 'CHD']]),
             columns=TABLE_DEFS["VARIANT_TASK"].columns
             )
         variant_effect_task_df.to_csv(os.path.join(DATA_FOLDER,
@@ -294,6 +297,8 @@ class RepositoryLoader:
         # Do a merge between data in repo data frame and new data
         # to find what rows already exist in the repo file using the
         # pk_columns
+        repo_df['CHROMOSOME'] = repo_df['CHROMOSOME'].astype(str)
+        new_data_df['CHROMOSOME'] = new_data_df['CHROMOSOME'].astype(str)
         df_merge = repo_df.merge(new_data_df, how="inner",
                                  on=pk_columns)
         non_pk_columns = list(set(columns) - set(pk_columns))
@@ -410,7 +415,7 @@ class RepositoryLoader:
         variant_df["PRIOR_PRIOR_GENOME_ASSEMBLY"] = np.where(
             variant_df['PRIOR_PRIOR_CHROMOSOME'].isnull(),
             None, prior_prior_genome_assembly)
-        self._upsert_repository_file(variant_df, task,
+        self._upsert_repository_file(variant_df,'None' ,
                                      TABLE_DEFS["VARIANT"].columns,
                                      "variant.csv",
                                      TABLE_DEFS["VARIANT"].pk_columns)
