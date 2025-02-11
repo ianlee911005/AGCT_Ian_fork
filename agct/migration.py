@@ -6,7 +6,7 @@ LEGACY_DATA_FOLDERS = {
     "adrd": "TGCA.V1/data_new/AD",
     "chd": "TGCA.V1/data_new/CHD",
     "ddd": "TGCA.V1/data_new/DDD",
-    "asd": "TGCA.V1/data_new/ASD"
+    "asd": "TGCA.V1/data_new/ASD",
 }
 LEGACY_CANCER_VARIANT_FILES = [
     {"source": "HOTSPOT", "label": 1, "file": "MSKhotspot.txt"},
@@ -46,10 +46,18 @@ def migrate_task_files(loader: RepositoryLoader, task: str):
 
 
 loader = RepositoryLoader()
+
 loader.init_variant_task()
+'''
 loader.init_variant_effect_source()
 migrate_task_files(loader, "cancer")
 migrate_task_files(loader, "adrd")
 migrate_task_files(loader, "chd")
 migrate_task_files(loader, "ddd")
 migrate_task_files(loader, "asd")
+'''
+
+loader.load_clinvar("hg38", 'clinvar', 
+                        'clinvar.csv',
+                        'clinvar',
+                        "hg19", "hg18")

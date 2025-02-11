@@ -28,7 +28,13 @@ COLUMN_NAME_MAP = {
     "genename": "GENE_SYMBOL",
     "Ensembl_geneid": "ENSEMBL_GENE_ID",
     "Ensembl_transcriptid": "ENSEMBL_TRANSCRIPT_ID",
-    "Ensembl_proteinid": "ENSEMBL_PROTEIN_ID"
+    "Ensembl_proteinid": "ENSEMBL_PROTEIN_ID",
+    "hg19_pos(1-based)": "PRIOR_POSITION",
+    "hg18_pos(1-based)": "PRIOR_PRIOR_POSITION",
+    "clinvar_review": "RAW_QUALITY",
+    "clinvar_clnsig": "RAW_LABEL",
+    "#chr": "CHROMOSOME",
+    "pos(1-based)": "POSITION"
 }
 VEP_COLUMN_LIST = [
     {"CODE": "REVEL", "raw_score": "REVEL_score",
@@ -174,9 +180,9 @@ class RepositoryLoader:
 
     def _task_full_path_name( self, task: str, file_name: str):
         if task == 'None':
-            return os.path.join(DATA_FOLDER, file_name)
+            return os.path.join(DATA_FOLDER, file_name).replace("\\", "/")
         else:
-            return os.path.join(DATA_FOLDER, task, file_name)
+            return os.path.join(DATA_FOLDER, task, file_name).replace("\\", "/")
 
     def init_variant_task(self):
 
@@ -185,7 +191,13 @@ class RepositoryLoader:
             create_folder(task_folder)
 
         variant_effect_task_df = pd.DataFrame(
-            data=np.array([['CANCER', 'cancer', 'Cancer', 'Cancer'], ['DDD', 'ddd', 'DDD', 'DDD'], ['ADRD', 'adrd', 'ADRD', 'ADRD'], ['ASD', 'asd', 'ASD', 'ASD'], ['CHD', 'chd', 'CHD', 'CHD']]),
+            data=np.array([['CANCER', 'cancer', 'Cancer', 'Cancer'], 
+                           ['DDD', 'ddd', 'DDD', 'DDD'], 
+                           ['ADRD', 'adrd', 'ADRD', 'ADRD'], 
+                           ['ASD', 'asd', 'ASD', 'ASD'], 
+                           ['CHD', 'chd', 'CHD', 'CHD'],
+                           ['CLINVAR', 'clinvar', 'CLINVAR', 'CLINVAR']
+                           ]),
             columns=TABLE_DEFS["VARIANT_TASK"].columns
             )
         variant_effect_task_df.to_csv(os.path.join(DATA_FOLDER,
@@ -455,3 +467,96 @@ class RepositoryLoader:
             TABLE_DEFS["VARIANT_EFFECT_LABEL"].columns,
             "variant_effect_label.csv",
             TABLE_DEFS["VARIANT_EFFECT_LABEL"].pk_columns)
+
+    def load_clinvar(self, genome_assembly: str, task: str,
+                          data_file: str,
+                          data_source: str,
+                          prior_genome_assembly: str,
+                          prior_prior_genome_assembly: str):
+
+        """
+        Function for loading data from a data file containing data as it is
+        downloaded from a source data site into our platform repository data
+        files. The input data_file is assumed to contain one row per variant
+        along with the label. There will be separate column in that row for
+        each vep score. For each row in the input data_file we populate
+        the following files:
+
+        - variant.csv - We create one row.
+        - variant_effect_label.csv - We create one row with the label and
+            other informational columns.
+        - variant_effect_score.csv - We create one row for each vep score
+            column. So if we have 5 vep score columns we would create 5
+            rows in this file.
+
+        To update the files we call the _upsert_repository_file method.
+        This method first checks if the row already exists in the file.
+        If it doesn't exist it adds the row. If it does exist it updates
+        the existing row with the new values.
+
+        Parameters
+        ----------
+        genome_assembly : str
+            Genome assembly, typically hg38
+        task : str
+        data_file : str
+            File containing data to be loaded.
+        file_folder : str
+            Location of data_file
+        data_source: str
+            Source of the input data_file. i.e. HOTSPOT
+        binary_label: int
+            1 or 0. This is the binary label to be assigned to all the
+            variants in the data_file. The assumption is that all of the
+            variants in the file have the same label.
+        prior_genome_assembly : str
+            Genome assembly prior to genome_assembly that we have chromosome,
+            position data for. typically hg19
+        prior_prior_genome_assembly : str
+            Genome assembly prior to prior_genome_assembly that we have,
+            chromsome position data for. typically hg18
+        """
+        path = data_file
+        variant_df = pd.read_csv(path,index_col=0)
+        #variant_df = pd.read_csv(os.path.join(file_folder, data_file))
+        variant_df['GENOME_ASSEMBLY'] = genome_assembly
+        variant_df["LABEL_SOURCE"] = data_source
+        if "gnomAD2.1.1_exomes_controls_AF" in variant_df.columns:
+            variant_df[["ALLELE_FREQUENCY", "ALLELE_FREQUENCY_SOURCE"]]\
+                = variant_df.apply(
+                lambda row: [row["gnomAD2.1.1_exomes_controls_AF"], "GNOMEX"] if
+                pd.notnull(row["gnomAD2.1.1_exomes_controls_AF"]) else
+                [row["gnomAD4.1_joint_AF"], "GNOMGE"] if
+                pd.notnull(row["gnomAD4.1_joint_AF"]) else
+                [np.nan, np.nan], axis=1, result_type="expand")
+        else:
+            variant_df[["ALLELE_FREQUENCY", "ALLELE_FREQUENCY_SOURCE"]]\
+                = [np.nan, np.nan]
+
+        variant_df = variant_df.map(self._convert_dot_to_nan)
+        variant_df.rename(columns=COLUMN_NAME_MAP, inplace=True)
+
+        variant_df["PRIOR_GENOME_ASSEMBLY"] = np.where(
+            variant_df['PRIOR_CHROMOSOME'].isnull(),
+            None, prior_genome_assembly)
+        variant_df["PRIOR_PRIOR_GENOME_ASSEMBLY"] = np.where(
+            variant_df['PRIOR_PRIOR_CHROMOSOME'].isnull(),
+            None, prior_prior_genome_assembly)
+        variant_df['FILTER_CODE'] = 'ONEPLUS'
+        
+        self._upsert_repository_file(variant_df,'None' ,
+                                     TABLE_DEFS["VARIANT"].columns,
+                                     "variant.csv",
+                                     TABLE_DEFS["VARIANT"].pk_columns)
+
+
+        self._upsert_repository_file(
+            variant_df, task,
+            TABLE_DEFS["VARIANT_LABEL"].columns,
+            "variant_label.csv",
+            TABLE_DEFS["VARIANT_LABEL"].pk_columns)
+        self._upsert_repository_file(
+            variant_df, task,
+            ["GENOME_ASSEMBLY","CHROMOSOME","POSITION","REFERENCE_NUCLEOTIDE","ALTERNATE_NUCLEOTIDE",'FILTER_CODE', 'RAW_QUALITY'],
+            "variant_filter_variant.csv",
+            ["GENOME_ASSEMBLY","CHROMOSOME","POSITION","REFERENCE_NUCLEOTIDE","ALTERNATE_NUCLEOTIDE"])
