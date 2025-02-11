@@ -23,7 +23,7 @@ TASK_SUBFOLDER = {
 
 DATA_FOLDER = "data"
 TASK_FOLDERS = [os.path.join(DATA_FOLDER, task) for task in ["cancer", "adrd",
-                                                             "chd", "ddd",'asd']]
+                                                             "chd", "ddd",'asd', 'clinvar']]
 
 
 @dataclass
@@ -74,6 +74,15 @@ VARIANT_LABEL_NON_PK_COLUMNS = [
     "RAW_LABEL",
     "BINARY_LABEL"
 ]
+CLINVAR_COLUMNS = [
+    'RAW_LABEL',
+    'BINARY_LABEL'
+]
+VARIANT_LABEL_TABEL_DEF = TableDef(DATA_FOLDER,
+                                    "variant_label.csv",
+                                    VARIANT_PK_COLUMNS,
+                                    CLINVAR_COLUMNS)
+
 VARIANT_EFFECT_LABEL_TABLE_DEF = TableDef(DATA_FOLDER,
                                           "variant_effect_label.csv",
                                           VARIANT_PK_COLUMNS,
@@ -122,6 +131,7 @@ VARIANT_FILTER_VARIANT_TABLE_DEF =\
 TABLE_DEFS = {
     "VARIANT_TASK": VARIANT_TASK_TABLE_DEF,
     "VARIANT_EFFECT_SOURCE": VARIANT_EFFECT_SOURCE_TABLE_DEF,
+    "VARIANT_LABEL":VARIANT_LABEL_TABEL_DEF,
     "VARIANT": VARIANT_TABLE_DEF,
     "VARIANT_EFFECT_LABEL": VARIANT_EFFECT_LABEL_TABLE_DEF,
     "VARIANT_DATA_SOURCE": VARIANT_DATA_SOURCE_TABLE_DEF,
