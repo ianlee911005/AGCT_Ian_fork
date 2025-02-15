@@ -9,24 +9,25 @@ LEGACY_DATA_FOLDERS = {
     "asd": "TGCA.V1/data_new/ASD",
 }
 LEGACY_CANCER_VARIANT_FILES = [
-    {"source": "HOTSPOT", "label": 1, "file": "MSKhotspot.txt"},
-    {"source": "MSK_PASSENGER", "label": 0, "file": "MSK_passenger.txt"},
+    {"source": "HOTSPOT", "label": 1, "file": "MSK_hotspot.csv"},
+    {"source": "MSK_PASSENGER", "label": 0, "file": "MSK_passenger.csv"},
+    {"source": "TCGA_PASSENGER", "label": 0, "file": "TCGA_passenger.csv"},
 ]
 LEGACY_ADRD_VARIANT_FILES = [
-    {"source": "ADRD", "label": 1, "file": "ADcase.txt"},
-    {"source": "ADRD", "label": 0, "file": "ADcontrol.txt"}
+    {"source": "ADRD", "label": 1, "file": "ADRD_case.csv"},
+    {"source": "ADRD", "label": 0, "file": "ADRD_control.csv"}
 ]
 LEGACY_CHD_VARIANT_FILES = [
-    {"source": "CHD", "label": 1, "file": "CHDcase.txt"},
-    {"source": "CHD", "label": 0, "file": "CHDcontrol.txt"}
+    {"source": "CHD", "label": 1, "file": "CHD_case.csv"},
+    {"source": "CHD", "label": 0, "file": "CHD_control.csv"}
 ]
 LEGACY_DDD_VARIANT_FILES = [
-    {"source": "DDD", "label": 1, "file": "DDDcase.txt"},
-    {"source": "DDD", "label": 0, "file": "DDDcontrol.txt"}
+    {"source": "DDD", "label": 1, "file": "DDD_case.csv"},
+    {"source": "DDD", "label": 0, "file": "DDD_control.csv"}
 ]
 LEGACY_ASD_VARIANT_FILES = [
-    {"source": "ASD", "label": 1, "file": "ASDcase.txt"},
-    {"source": "ASD", "label": 0, "file": "ASDcontrol.txt"}
+    {"source": "ASD", "label": 1, "file": "ASD_case.csv"},
+    {"source": "ASD", "label": 0, "file": "ASD_control.csv"}
 ]
 LEGACY_VARIANT_FILES = {
     "cancer": LEGACY_CANCER_VARIANT_FILES,
@@ -48,14 +49,12 @@ def migrate_task_files(loader: RepositoryLoader, task: str):
 loader = RepositoryLoader()
 
 loader.init_variant_task()
-'''
 loader.init_variant_effect_source()
 migrate_task_files(loader, "cancer")
 migrate_task_files(loader, "adrd")
 migrate_task_files(loader, "chd")
 migrate_task_files(loader, "ddd")
 migrate_task_files(loader, "asd")
-'''
 
 loader.load_clinvar("hg38", 'clinvar', 
                         'clinvar.csv',
