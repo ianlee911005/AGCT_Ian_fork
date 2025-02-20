@@ -1,11 +1,13 @@
 CODE,NAME,SOURCE_TYPE,DESCRIPTION
-SIFT,SIFT_converted,VEP,SIFT_converted
-SIFT4G,SIFT4G_converted,VEP,SIFT4G_converted
+MAVEN_average,MAVEN_(average),VEP,MAVEN_(average)
+MAVEN,MAVEN,VEP,MAVEN
+SIFT,SIFT,VEP,SIFT
+SIFT4G,SIFT4G,VEP,SIFT4G
 PP2_HDIV,Polyphen2_HDIV,VEP,Polyphen2_HDIV
 PP2_HVAR,Polyphen2_HVAR,VEP,Polyphen2_HVAR
-MutTaster,MutationTaster_converted,VEP,MutationTaster_converted
+MutTaster,MutationTaster,VEP,MutationTaster
 MutAssessor,MutationAssessor,VEP,MutationAssessor
-PROVEAN,PROVEAN_converted,VEP,PROVEAN_converted
+PROVEAN,PROVEAN,VEP,PROVEAN
 VEST4,VEST4,VEP,VEST4
 MetaSVM,MetaSVM,VEP,MetaSVM
 MetaLR,MetaLR,VEP,MetaLR
@@ -36,3 +38,5 @@ DANN,DANN,VEP,DANN
 fathmm-XF,fathmm-XF_coding,VEP,fathmm-XF_coding
 Eigen,Eigen-raw_coding,VEP,Eigen-raw_coding
 Eigen-PC,Eigen-PC-raw_coding,VEP,Eigen-PC-raw_coding
+MAVEN_average,MAVEN_(average),VEP,MAVEN_(average)
+MAVEN,MAVEN,VEP,MAVEN
