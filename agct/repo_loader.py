@@ -37,6 +37,8 @@ COLUMN_NAME_MAP = {
     "pos(1-based)": "POSITION"
 }
 VEP_COLUMN_LIST = [
+    {"CODE": "MAVEN_average", "raw_score": "MAVEN_(average)_score", "rank_score": "MAVEN_(average)_score"},
+    {"CODE": "MAVEN", "raw_score": "MAVEN_score", "rank_score": "MAVEN_score"},
     {"CODE": "SIFT", "raw_score": "SIFT_score", "rank_score": "SIFT_converted_rankscore"},
     {"CODE": "SIFT4G", "raw_score": "SIFT4G_score", "rank_score": "SIFT4G_converted_rankscore"},
     {"CODE": "PP2_HDIV", "raw_score": "Polyphen2_HDIV_score", "rank_score": "Polyphen2_HDIV_rankscore"},
@@ -73,7 +75,9 @@ VEP_COLUMN_LIST = [
     {"CODE": "DANN", "raw_score": "DANN_score", "rank_score": "DANN_rankscore"},
     {"CODE": "fathmm-XF", "raw_score": "fathmm-XF_coding_score", "rank_score": "fathmm-XF_coding_rankscore"},
     {"CODE": "Eigen", "raw_score": "Eigen-raw_coding_score", "rank_score": "Eigen-raw_coding_rankscore"},
-    {"CODE": "Eigen-PC", "raw_score": "Eigen-PC-raw_coding_score", "rank_score": "Eigen-PC-raw_coding_rankscore"}
+    {"CODE": "Eigen-PC", "raw_score": "Eigen-PC-raw_coding_score", "rank_score": "Eigen-PC-raw_coding_rankscore"},
+    {"CODE": "MAVEN_average", "raw_score": "MAVEN_(average)_score", "rank_score": "MAVEN_(average)_score"},
+    {"CODE": "MAVEN", "raw_score": "MAVEN_score", "rank_score": "MAVEN_score"}
 ]
 VARIANT_DATA_SOURCE_DATA = [
     ["GNOMGE", "GNOMAD_GENOMES", "GNOMAD GENOMES"],
@@ -93,7 +97,7 @@ class RepositoryLoader:
         return val
 
     def _derive_variant_effect_source_columns(self, row):
-        source_name = re.match("(.+)_rankscore", row["rank_score"]).group(1)
+        source_name = re.match("(.+)_score", row["raw_score"]).group(1)
         return [row["CODE"], source_name, "VEP", source_name]
 
     def _task_full_path_name( self, task: str, file_name: str):
@@ -363,13 +367,19 @@ class RepositoryLoader:
             vep_df = variant_df.query(f"`{vep_columns['rank_score']}`.notna()")
             if len(vep_df) == 0:
                 continue
-            vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
+            if vep_columns["CODE"] in ["MAVEN_average",'MAVEN'] :
+                vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
+                            [vep_columns["raw_score"]]]
+                vep_df = vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE"})
+                vep_df['RANK_SCORE'] = vep_df["RAW_SCORE"]
+            else:
+                vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
                             [vep_columns["raw_score"],
                              vep_columns["rank_score"]]]
-            vep_df["SCORE_SOURCE"] = vep_columns["CODE"]
-            vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE",
+                vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE",
                                    vep_columns["rank_score"]: "RANK_SCORE"},
                           inplace=True)
+            vep_df["SCORE_SOURCE"] = vep_columns["CODE"]
             variant_effect_score_df = pd.concat(
                 [variant_effect_score_df,
                  vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns]])
