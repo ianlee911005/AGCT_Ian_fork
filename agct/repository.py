@@ -22,8 +22,8 @@ TASK_SUBFOLDER = {
 }
 
 DATA_FOLDER = "data"
-TASK_FOLDERS = [os.path.join(DATA_FOLDER, task) for task in ["cancer", "adrd",
-                                                             "chd", "ddd",'asd', 'clinvar']]
+TASK_FOLDERS = [os.path.join(DATA_FOLDER, task) for task in ["CANCER", "ADRD",
+                                                             "CHD", "DDD",'ASD', 'CLINVAR']]
 
 
 @dataclass
@@ -120,7 +120,7 @@ VARIANT_FILTER_TABLE_DEF =\
 
 VARIANT_FILTER_GENE_TABLE_DEF =\
     TableDef(DATA_FOLDER,
-             "variant_filter_gene.csv", ["FILTER_CODE, GENE_SYMBOL"],
+             "variant_filter_gene.csv", ['FILTER_CODE', 'GENE_SYMBOL'],
              [])
 
 VARIANT_FILTER_VARIANT_TABLE_DEF =\
