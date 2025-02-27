@@ -48,7 +48,7 @@ def migrate_task_files(loader: RepositoryLoader, task: str):
 
 
 loader = RepositoryLoader()
-
+'''
 loader.init_variant_task()
 loader.init_variant_effect_source()
 migrate_task_files(loader, "CANCER")
@@ -56,8 +56,8 @@ migrate_task_files(loader, "ADRD")
 migrate_task_files(loader, "CHD")
 migrate_task_files(loader, "DDD")
 migrate_task_files(loader, "ASD")
-
-loader.load_clinvar("hg38", 'clinvar', 
+'''
+loader.load_clinvar("hg38", 'CLINVAR', 
                         'clinvar.csv',
-                        'clinvar',
+                        'CLINVAR',
                         "hg19", "hg18")

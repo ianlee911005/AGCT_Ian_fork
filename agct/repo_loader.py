@@ -524,9 +524,9 @@ class RepositoryLoader:
 
         self._upsert_repository_file(
             variant_df, task,
-            TABLE_DEFS["VARIANT_LABEL"].columns,
-            "variant_label.csv",
-            TABLE_DEFS["VARIANT_LABEL"].pk_columns)
+            TABLE_DEFS["VARIANT_EFFECT_LABEL"].columns,
+            "variant_effect_label.csv",
+            TABLE_DEFS["VARIANT_EFFECT_LABEL"].pk_columns)
         self._upsert_repository_file(
             variant_df, task,
             ["GENOME_ASSEMBLY","CHROMOSOME","POSITION","REFERENCE_NUCLEOTIDE","ALTERNATE_NUCLEOTIDE",'FILTER_CODE', 'RAW_QUALITY'],

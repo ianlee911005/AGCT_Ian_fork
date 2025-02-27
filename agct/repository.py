@@ -75,13 +75,14 @@ VARIANT_LABEL_NON_PK_COLUMNS = [
     "BINARY_LABEL"
 ]
 CLINVAR_COLUMNS = [
+    "LABEL_SOURCE",
     'RAW_LABEL',
     'BINARY_LABEL'
 ]
 VARIANT_LABEL_TABEL_DEF = TableDef(DATA_FOLDER,
                                     "variant_label.csv",
                                     VARIANT_PK_COLUMNS,
-                                    CLINVAR_COLUMNS)
+                                    VARIANT_LABEL_NON_PK_COLUMNS)
 
 VARIANT_EFFECT_LABEL_TABLE_DEF = TableDef(DATA_FOLDER,
                                           "variant_effect_label.csv",
