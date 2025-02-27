@@ -2,11 +2,11 @@
 from repo_loader import RepositoryLoader
 
 LEGACY_DATA_FOLDERS = {
-    "cancer": "TGCA.V1/data_new/cancer",
-    "adrd": "TGCA.V1/data_new/AD",
-    "chd": "TGCA.V1/data_new/CHD",
-    "ddd": "TGCA.V1/data_new/DDD",
-    "asd": "TGCA.V1/data_new/ASD",
+    "CANCER": "TGCA.V1/data_new/cancer",
+    "ADRD": "TGCA.V1/data_new/AD",
+    "CHD": "TGCA.V1/data_new/CHD",
+    "DDD": "TGCA.V1/data_new/DDD",
+    "ASD": "TGCA.V1/data_new/ASD",
 }
 LEGACY_CANCER_VARIANT_FILES = [
     {"source": "HOTSPOT", "label": 1, "file": "MSK_hotspot.csv"},
@@ -30,16 +30,17 @@ LEGACY_ASD_VARIANT_FILES = [
     {"source": "ASD", "label": 0, "file": "ASD_control.csv"}
 ]
 LEGACY_VARIANT_FILES = {
-    "cancer": LEGACY_CANCER_VARIANT_FILES,
-    "adrd": LEGACY_ADRD_VARIANT_FILES,
-    "chd": LEGACY_CHD_VARIANT_FILES,
-    "ddd": LEGACY_DDD_VARIANT_FILES,
-    "asd": LEGACY_ASD_VARIANT_FILES
+    "CANCER": LEGACY_CANCER_VARIANT_FILES,
+    "ADRD": LEGACY_ADRD_VARIANT_FILES,
+    "CHD": LEGACY_CHD_VARIANT_FILES,
+    "DDD": LEGACY_DDD_VARIANT_FILES,
+    "ASD": LEGACY_ASD_VARIANT_FILES
 }
 
 
 def migrate_task_files(loader: RepositoryLoader, task: str):
     for file in LEGACY_VARIANT_FILES[task]:
+        loader.generate_filter_cluster(task)
         loader.load_variant_file("hg38", task, file["file"],
                                  LEGACY_DATA_FOLDERS[task],
                                  file["source"], file["label"],
@@ -50,11 +51,11 @@ loader = RepositoryLoader()
 
 loader.init_variant_task()
 loader.init_variant_effect_source()
-migrate_task_files(loader, "cancer")
-migrate_task_files(loader, "adrd")
-migrate_task_files(loader, "chd")
-migrate_task_files(loader, "ddd")
-migrate_task_files(loader, "asd")
+migrate_task_files(loader, "CANCER")
+migrate_task_files(loader, "ADRD")
+migrate_task_files(loader, "CHD")
+migrate_task_files(loader, "DDD")
+migrate_task_files(loader, "ASD")
 
 loader.load_clinvar("hg38", 'clinvar', 
                         'clinvar.csv',
