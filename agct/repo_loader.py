@@ -489,7 +489,7 @@ class RepositoryLoader:
             chromsome position data for. typically hg18
         """
         path = data_file
-        variant_df = pd.read_csv(path,index_col=0)
+        variant_df = pd.read_csv(path)
         #variant_df = pd.read_csv(os.path.join(file_folder, data_file))
         variant_df['GENOME_ASSEMBLY'] = genome_assembly
         variant_df["LABEL_SOURCE"] = data_source
@@ -521,7 +521,37 @@ class RepositoryLoader:
                                      "variant.csv",
                                      TABLE_DEFS["VARIANT"].pk_columns)
 
+        variant_effect_score_df = pd.DataFrame(
+            columns=TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns)
+        for vep_columns in VEP_COLUMN_LIST:
+            if vep_columns["raw_score"] not in variant_df.columns:
+                continue
+            vep_df = variant_df.query(f"`{vep_columns['rank_score']}`.notna()")
+            if len(vep_df) == 0:
+                continue
+            if vep_columns["CODE"] in ["MAVENAVG",'MAVEN'] :
+                vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
+                            [vep_columns["raw_score"]]]
+                vep_df = vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE"})
+                vep_df['RANK_SCORE'] = vep_df["RAW_SCORE"]
+            else:
+                vep_df = vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns[:5] +
+                            [vep_columns["raw_score"],
+                             vep_columns["rank_score"]]]
+                vep_df.rename(columns={vep_columns["raw_score"]: "RAW_SCORE",
+                                   vep_columns["rank_score"]: "RANK_SCORE"},
+                          inplace=True)
+            vep_df["SCORE_SOURCE"] = vep_columns["CODE"]
+            variant_effect_score_df = pd.concat(
+                [variant_effect_score_df,
+                 vep_df[TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns]])
 
+        self._upsert_repository_file(
+            variant_effect_score_df, task,
+            TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns,
+            "variant_effect_score.csv",
+            TABLE_DEFS["VARIANT_EFFECT_SCORE"].pk_columns)
+        
         self._upsert_repository_file(
             variant_df, task,
             TABLE_DEFS["VARIANT_EFFECT_LABEL"].columns,
