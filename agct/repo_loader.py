@@ -195,11 +195,11 @@ class RepositoryLoader:
 
     def generate_filter_cluster(self, task):
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER"].columns)
-        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter.csv'))
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter.csv'), index=False)
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_GENE"].columns)
-        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_gene.csv'))
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_gene.csv'), index=False)
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_VARIANT"].columns)
-        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_variant.csv.csv'))
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_variant.csv'), index=False)
 
     def _build_excep_where_clause(self, column_list: list[str],
                                   suffixes: list[str]):
