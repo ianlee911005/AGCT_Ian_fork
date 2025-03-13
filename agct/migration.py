@@ -41,10 +41,17 @@ LEGACY_VARIANT_FILES = {
 def migrate_task_files(loader: RepositoryLoader, task: str):
     for file in LEGACY_VARIANT_FILES[task]:
         loader.generate_filter_cluster(task)
+<<<<<<< HEAD
         #loader.load_variant_file("hg38", task, file["file"],
         #                         LEGACY_DATA_FOLDERS[task],
         #                         file["source"], file["label"],
         #                         "hg19", "hg18")
+=======
+        loader.load_variant_file("hg38", task, file["file"],
+                                 LEGACY_DATA_FOLDERS[task],
+                                 file["source"], file["label"],
+                                 "hg19", "hg18")
+>>>>>>> 8e4abe8e4a744ceebfc60266b22ef0b56c15de4b
 
 
 loader = RepositoryLoader()
@@ -57,8 +64,15 @@ migrate_task_files(loader, "CHD")
 migrate_task_files(loader, "DDD")
 migrate_task_files(loader, "ASD")
 '''
+<<<<<<< HEAD
 #loader.generate_filter_cluster('CLINVAR')
 loader.load_clinvar("hg38", 'CLINVAR', 
                         'clinvar.csv',
                         'CLINVAR',
                         "hg19", "hg18")
+=======
+loader.load_clinvar("hg38", 'CLINVAR', 
+                        'clinvar.csv',
+                        'CLINVAR',
+                        "hg19", "hg18")
+>>>>>>> 8e4abe8e4a744ceebfc60266b22ef0b56c15de4b

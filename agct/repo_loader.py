@@ -195,11 +195,19 @@ class RepositoryLoader:
 
     def generate_filter_cluster(self, task):
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER"].columns)
+<<<<<<< HEAD
         dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter.csv'), index=False)
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_GENE"].columns)
         dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_gene.csv'), index=False)
         dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_VARIANT"].columns)
         dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_variant.csv'), index=False)
+=======
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter.csv'))
+        dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_GENE"].columns)
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_gene.csv'))
+        dataframe = pd.DataFrame(columns= TABLE_DEFS["VARIANT_FILTER_VARIANT"].columns)
+        dataframe.to_csv(os.path.join(DATA_FOLDER, task, 'variant_filter_variant.csv.csv'))
+>>>>>>> 8e4abe8e4a744ceebfc60266b22ef0b56c15de4b
 
     def _build_excep_where_clause(self, column_list: list[str],
                                   suffixes: list[str]):
@@ -489,7 +497,11 @@ class RepositoryLoader:
             chromsome position data for. typically hg18
         """
         path = data_file
+<<<<<<< HEAD
         variant_df = pd.read_csv(path)
+=======
+        variant_df = pd.read_csv(path,index_col=0)
+>>>>>>> 8e4abe8e4a744ceebfc60266b22ef0b56c15de4b
         #variant_df = pd.read_csv(os.path.join(file_folder, data_file))
         variant_df['GENOME_ASSEMBLY'] = genome_assembly
         variant_df["LABEL_SOURCE"] = data_source
@@ -521,6 +533,7 @@ class RepositoryLoader:
                                      "variant.csv",
                                      TABLE_DEFS["VARIANT"].pk_columns)
 
+<<<<<<< HEAD
         variant_effect_score_df = pd.DataFrame(
             columns=TABLE_DEFS["VARIANT_EFFECT_SCORE"].columns)
         for vep_columns in VEP_COLUMN_LIST:
@@ -553,6 +566,10 @@ class RepositoryLoader:
             TABLE_DEFS["VARIANT_EFFECT_SCORE"].pk_columns)
         
         self._upsert_repository_file(
+=======
+
+        self._upsert_repository_file(
+>>>>>>> 8e4abe8e4a744ceebfc60266b22ef0b56c15de4b
             variant_df, task,
             TABLE_DEFS["VARIANT_EFFECT_LABEL"].columns,
             "variant_effect_label.csv",
